@@ -4,7 +4,7 @@ import path from "path";
 
 
 const publicKey = fs.readFileSync(
-  path.join(__dirname, "../", "auth.pub.key"),
+  path.join(process.cwd(), "/auth.pub.key"),
   "utf8"
 );
 

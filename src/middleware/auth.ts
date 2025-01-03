@@ -19,8 +19,6 @@ export const authenticateUser = async (
       }
       req.user = decodedToken.sub;
 
-      // get profile and save warehouse id
-      // req.user.warehouseId = 1
       next();
     } else {
       res.status(401).json({

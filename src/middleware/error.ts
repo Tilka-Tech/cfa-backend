@@ -1,6 +1,6 @@
 
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import httpStatus from "http-status";
+const httpStatus = require("http-status");
 import logger from '../config/logger';
 import ApiError from '../utils/ApiError';
 import { Request, Response, NextFunction } from 'express';

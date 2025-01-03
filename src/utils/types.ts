@@ -36,10 +36,3 @@ export type userCreateInput = {
   profilePictureUrl?: string;
 };
 
-// create stackingId type
-export type StackingIdsType = {
-  id: number,
-  bagCount: number,
-  netWeight?: number,
-  grossWeight?: number,
-}

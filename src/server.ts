@@ -8,6 +8,8 @@ import dotenv from "dotenv";
 import appRoute from "./routes";
 import { errorConverter } from "./middleware/error";
 import { errorHandler } from "./middleware/error";
+import swaggerUi from "swagger-ui-express";
+import swaggerOutput from "./swagger_output.json";
 // import startJobs from "./cronjob";
 // import { rateLimit } from 'express-rate-limit'
 
@@ -35,6 +37,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(formData.parse());
+// swagger auto gen
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOutput));
 
 /// AppRoutes
 app.use("/api/", appRoute);
@@ -46,7 +50,7 @@ app.use(errorConverter);
 
 // handle error
 app.use(errorHandler);
-
-server.listen(process.env.PORT || 5002, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:5002`);
+const port = process.env.PORT || 5002
+server.listen(port, () => {
+  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
