@@ -1,0 +1,102 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearchPostgres"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(uuid())
+  firstName        String
+  lastname        String
+  email           String    @unique
+  phone           String
+  userType        UserType
+  password        String
+  roleId          String?
+  role            Role?     @relation(fields: [roleId], references: [id])
+  truck           Truck[]   @relation(name: "owner")
+  createBy        Truck[]   @relation(name: "created")
+  addresses       UserAddress[]
+  order           Order[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @default(now())
+}
+
+model Truck {
+  id              String    @id @default(uuid())
+  name            String
+  plateNumber     String
+  status          Boolean   @default(true)
+  ownerId         String
+  owner           User      @relation(fields: [ownerId], references: [id], name: "owner")
+  createdById     String
+  createdBy       User      @relation(fields: [createdById], references: [id], name: "created")
+  order           Order[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @default(now()) 
+}
+
+model Order {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User   @relation(fields: [userId], references: [id])
+  truckId         String
+  truck           Truck   @relation(fields: [truckId], references: [id])
+  pickupId        String
+  pickupAddress   UserAddress   @relation(fields: [pickupId], references: [id], name: "pickup")
+  deliveryId      String
+  deliveryAddress UserAddress   @relation(fields: [deliveryId], references: [id], name: "delivery")
+  recipientName   String
+  recipientPhone  String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @default(now()) 
+}
+
+model UserAddress {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  country         String
+  state           String
+  city            String
+  street          String
+  houseNumber     String
+  landmark        String?
+  postalCode      String?
+  status          Boolean
+  isDefault       Boolean
+  pickupOrder     Order[]   @relation(name: "pickup")
+  deliveryOrder   Order[]   @relation(name: "delivery")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @default(now()) 
+}
+
+model Role {
+  id              String    @id @default(uuid())
+  name            String
+  users           User[]
+  permissions     Permission[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @default(now())
+}
+
+model Permission {
+  id              String    @id @default(uuid())
+  name            String
+  method          String
+  route           String
+  roleId          String
+  role            Role      @relation(fields: [roleId], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @default(now())
+}
+
+enum UserType {
+  Admin
+  User
+  Driver
+}
