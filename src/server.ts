@@ -50,6 +50,8 @@ app.use(errorConverter);
 
 // handle error
 app.use(errorHandler);
+
+
 const port = process.env.PORT || 5002
 server.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
