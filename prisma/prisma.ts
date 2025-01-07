@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 // const {  } = require('@prisma/client')
 
 const prismaClient = new PrismaClient({
-    errorFormat: "minimal"
+    errorFormat: "minimal", log: ["query"]
 })
 
 
