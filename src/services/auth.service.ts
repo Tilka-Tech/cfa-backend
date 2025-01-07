@@ -25,7 +25,7 @@ const postLogIn = async (req: Request)=>{
 
     if(!isPasswordMatch)return {message: "invalid email or password", status: false};
 
-    const token = jwt.sign({ user: foundUser }, privateKey, { algorithm: 'RS256', expiresIn: '1h'   });
+    const token = jwt.sign({ sub: foundUser }, privateKey, { algorithm: 'RS256', expiresIn: '1h'   });
 
     return {message: "Login Successful", status: true, data: {user: foundUser, token}}
 }
