@@ -10,8 +10,7 @@ datasource db {
 
 model User {
   id        String        @id @default(uuid())
-  firstName String
-  lastName  String
+  fullname  String
   email     String        @unique
   phone     String
   userType  UserType
@@ -22,8 +21,21 @@ model User {
   createBy  Truck[]       @relation(name: "created")
   addresses UserAddress[]
   order     Order[]
+  token     Token[]
   createdAt DateTime      @default(now())
   updatedAt DateTime?     @updatedAt
+}
+
+model Token {
+  id              String         @id @default(uuid())
+  userId          String
+  user            User           @relation(fields: [userId], references: [id])
+  type            String
+  token           String
+  isBlacklisted   Boolean        @default(false)
+  expires         DateTime
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now())
 }
 
 model Truck {

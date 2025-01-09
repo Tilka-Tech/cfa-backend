@@ -4,14 +4,16 @@ import bcrypt from "bcrypt";
 import fs from "fs"
 import jwt from "jsonwebtoken";
 import path from "path";
+import emailSender from "../utils/email";
 
 
 const privateKey = fs.readFileSync(
-    path.join(__dirname, "../", "../", "auth.key"),
-    "utf8"
-  );
+  path.join(process.cwd(), "auth.key"),
+  "utf8"
+);
 
-const postLogIn = async (req: Request)=>{
+const AuthService = {
+  postLogIn: async (req: Request)=>{
 
     const {email, password} = req.body;
 
@@ -19,7 +21,7 @@ const postLogIn = async (req: Request)=>{
         where: { email }
     });
     if(!foundUser){
-     return {message: "invalid email or password", status: false}
+      return {message: "invalid email or password", status: false}
     }
     const isPasswordMatch = await bcrypt.compare(password, foundUser.password);
 
@@ -28,9 +30,128 @@ const postLogIn = async (req: Request)=>{
     const token = jwt.sign({ sub: foundUser }, privateKey, { algorithm: 'RS256', expiresIn: '1h'   });
 
     return {message: "Login Successful", status: true, data: {user: foundUser, token}}
+  },
+  
+  postCreateUser: async (req: Request)=>{
+    const {fullname, email, phone, password} = req.body
+    // check if user already exist 
+    const userExist = await prismaClient.user.findFirst({
+      where: {email}
+    })
+    if(userExist) {
+      return {status: false, message: "User already exist"}
+    }
+    const salt = await bcrypt.genSalt(12);
+    const hashPassword = await bcrypt.hash(password, salt)
+    const user = await prismaClient.user.create({
+      data: {
+        email,
+        fullname,
+        password: hashPassword,
+        userType: "TruckOwner",
+        phone,
+      },
+    });
+
+    // send a welcome mail
+
+    await emailSender(user.email, "", user.fullname, 'welcome', 'Welcome');
+    
+    return { message: "account created", status: true, data: user }
+  },
+  
+  forgotPassword: async (req: Request)=>{
+    const {email} = req.body
+    // check if user exist 
+    const userExist = await prismaClient.user.findFirst({
+      where: {email}
+    })
+    if(!userExist) {
+      return {status: false, message: "User not found"}
+    }
+
+    // send a confirmation mail
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiration = new Date(Date.now() + 15 * 60 * 1000);
+
+    await prismaClient.token.create({
+      data: {
+        token: otp,
+        userId: userExist.id,
+        type: 'verify-token',
+        expires: otpExpiration,
+      },
+    });
+
+    await emailSender(userExist.email, otp, userExist.fullname, 'verify-email', 'Verify Token');
+    
+    return { message: "Token sent has been sent to your email", status: true }
+  },
+
+  verifyToken: async (req: Request)=>{
+    const {otp} = req.body
+    // check if otp exist 
+    const token = await prismaClient.token.findFirst({
+      where: {token: otp}
+    })
+    if(!token) {
+      return {status: false, message: "Token does not exist"}
+    }
+
+    if(token.isBlacklisted) {
+      return {status: false, message: "Invalid token"}
+    }
+
+    if(token.expires < new Date()) {
+      return {status: false, message: "Token expire"}
+    }
+    
+    // update token to blacklisted
+    // await prismaClient.token.update({
+    //   where: {id: token.id},
+    //   data: {isBlacklisted: false}
+    // })
+
+    return { message: "token verified", status: true }
+  },
+
+  resetPassword: async (req: Request)=>{
+    const {otp, password} = req.body
+    // check if otp exist 
+    const token = await prismaClient.token.findFirst({
+      where: {token: otp}
+    })
+    if(!token) {
+      return {status: false, message: "Token does not exist"}
+    }
+
+    if(token.isBlacklisted) {
+      return {status: false, message: "Invalid token"}
+    }
+    
+    // update token to blacklisted
+    await prismaClient.token.update({
+      where: {id: token.id},
+      data: {isBlacklisted: false}
+    })
+
+    // update user password
+    const salt = await bcrypt.genSalt(12);
+    const hashPassword = await bcrypt.hash(password, salt)
+    const user = await prismaClient.user.update({
+      where: {id: token.userId},
+      data: {
+        password: hashPassword,
+      },
+    });
+
+    // send password reset email
+    await emailSender(user.email, "", user.fullname, 'reset-password', 'Password Reset');
+
+    return { message: "token verified", status: true }
+  },
 }
 
 
-export default {
-    postLogIn
-}
+
+export default AuthService
