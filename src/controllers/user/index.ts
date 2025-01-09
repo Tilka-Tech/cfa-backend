@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import userService from "../../services/user.service";
 
 const UserController = {
-  postCreateUser: async (req : Request, res: Response): Promise<any>=>{
+  getDashboard: async (req : Request, res: Response): Promise<any>=>{
     try{
       const response = await userService.postCreateUser(req)
 
