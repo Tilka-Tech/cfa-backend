@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000",
+      "url": "http://localhost:8000/api/",
       "description": ""
     }
   ],
@@ -27,13 +27,43 @@
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
           }
         }
       }
@@ -43,13 +73,45 @@
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Register response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/registerSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/registerSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password",
+                "fullname": "John Doe",
+                "phone": "08012345678"
+              }
+            }
           }
         }
       }
@@ -59,13 +121,38 @@
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Forgot response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forgotPasswordSchema"
+                },
+                "example": {
+                  "status": true,
+                  "message": "Successfull message"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/forgotPasswordSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
           }
         }
       }
@@ -75,13 +162,37 @@
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Forgot response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/verifyTokenSchema"
+                },
+                "example": {
+                  "status": true,
+                  "message": "Successfull message"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/verifyTokenSchema"
+              },
+              "example": {
+                "otp": "johndoe@sample.com"
+              }
+            }
           }
         }
       }
@@ -91,13 +202,37 @@
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Forgot response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/verifyTokenSchema"
+                },
+                "example": {
+                  "status": true,
+                  "message": "Successfull message"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/verifyTokenSchema"
+              },
+              "example": {
+                "otp": "johndoe@sample.com"
+              }
+            }
           }
         }
       }
@@ -108,6 +243,93 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "loginSchema": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "johno@sample.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "password"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "registerSchema": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "johno@sample.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "password"
+          },
+          "fullname": {
+            "type": "string",
+            "example": "John doe"
+          },
+          "phone": {
+            "type": "string",
+            "example": "08012345678"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "fullname",
+          "phone"
+        ]
+      },
+      "forgotPasswordSchema": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "johno@sample.com"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "verifyTokenSchema": {
+        "type": "object",
+        "properties": {
+          "otp": {
+            "type": "string",
+            "example": "123456"
+          }
+        },
+        "required": [
+          "otp"
+        ]
+      },
+      "resetPasswordSchema": {
+        "type": "object",
+        "properties": {
+          "otp": {
+            "type": "string",
+            "example": "johno@sample.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "Password"
+          }
+        },
+        "required": [
+          "otp",
+          "password"
+        ]
       }
     }
   }

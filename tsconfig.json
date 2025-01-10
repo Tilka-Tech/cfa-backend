@@ -16,6 +16,6 @@
     "sourceMap": true,
     "inlineSources": true,
     // "rootDir": "./src",                  // Root directory for input files
-    "types": ["node"]  
+    "types": ["node"]
   },
 }
