@@ -8,7 +8,7 @@ const doc = {
     },
     servers: [
         {
-            url: 'http://localhost:8000',
+            url: 'http://localhost:8000/api/',
             description: ''
         },
     ],
@@ -18,11 +18,36 @@ const doc = {
                 type: 'http',
                 scheme: 'bearer',
             }
-        }
+        },
+        schemas: {
+            loginSchema: {
+                $email: 'johno@sample.com',
+                $password: "password",
+            },
+            registerSchema: {
+                $email: 'johno@sample.com',
+                $password: "password",
+                $fullname: "John doe",
+                $phone: "08012345678"
+            },
+            forgotPasswordSchema: {
+                $email: 'johno@sample.com',
+            },
+            verifyTokenSchema: {
+                $otp: '123456',
+            },
+            resetPasswordSchema: {
+                $otp: 'johno@sample.com',
+                $password: 'Password'
+            },
+        },
     }
 };
 
 const outputFile = './swagger_output.json';
 const endpointsFiles = ['./src/routes/index.ts'];
 
-swaggerAutogen({openapi: '3.0.0'})(outputFile, endpointsFiles, doc);
+swaggerAutogen({openapi: '3.0.0'})(outputFile, endpointsFiles, doc).then(() => {
+    console.log('Swagger documentation generated');
+    // Optionally: Start the TypeScript compilation or another task if needed
+  });
