@@ -27,29 +27,40 @@ model User {
 }
 
 model Token {
-  id              String         @id @default(uuid())
-  userId          String
-  user            User           @relation(fields: [userId], references: [id])
-  type            String
-  token           String
-  isBlacklisted   Boolean        @default(false)
-  expires         DateTime
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @default(now())
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  type          String
+  token         String
+  isBlacklisted Boolean  @default(false)
+  expires       DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
 }
 
 model Truck {
-  id          String    @id @default(uuid())
-  name        String
-  plateNumber String
-  status      Boolean   @default(true)
-  ownerId     String
-  owner       User      @relation(fields: [ownerId], references: [id], name: "owner")
-  createdById String
-  createdBy   User      @relation(fields: [createdById], references: [id], name: "created")
-  order       Order[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
+  id                 String              @id @default(uuid())
+  plateNumber        String
+  capacity           String
+  type               String
+  status             Boolean?            @default(true)
+  ownerId            String
+  owner              User                @relation(fields: [ownerId], references: [id], name: "owner")
+  creatorId          String
+  creator            User                @relation(fields: [creatorId], references: [id], name: "created")
+  order              Order[]
+  registrationPapers RegistrationPaper[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime?           @updatedAt
+}
+
+model RegistrationPaper {
+  id        String   @id @default(uuid())
+  paperUrl  String
+  truck     Truck    @relation(fields: [truckId], references: [id])
+  truckId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Order {

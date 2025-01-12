@@ -10,6 +10,8 @@ import { errorConverter } from "./middleware/error";
 import { errorHandler } from "./middleware/error";
 import swaggerUi from "swagger-ui-express";
 import swaggerOutput from "./swagger_output.json";
+import multer, { FileFilterCallback }  from "multer";
+import { randomUUID } from "crypto";
 // import startJobs from "./cronjob";
 // import { rateLimit } from 'express-rate-limit'
 
@@ -36,6 +38,34 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Storage configuration
+const storage = multer.memoryStorage();
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'temp/storage');
+//   },
+//   filename: (req, file, cb) => {
+//     const uuid = randomUUID();
+//     const extension = file.originalname.split('.').pop(); // Get file extension
+//     cb(null, `${file.fieldname}-${uuid}.${extension}`);
+//   }
+// });
+
+// File filter configuration
+const fileFilter = (req: any, file: Express.Multer.File, cb: FileFilterCallback)=> {
+  if (file.mimetype !== 'image/jpeg' && file.mimetype !== 'application/pdf') {
+    return cb(null, false); // Reject invalid file types
+  }
+  cb(null, true); // Accept valid file types
+};
+
+const limits = {
+  fileSize: 1024 * 1024 * 5 // Limit file size to 5MB
+};
+
+app.use(multer({ storage, fileFilter ,limits }).array('registrationPapers'))
+
 // app.use(formData.parse());
 // swagger auto gen
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOutput));

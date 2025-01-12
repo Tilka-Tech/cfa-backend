@@ -2,6 +2,7 @@
 import express, { Router, response } from "express";
 
 import authRoute from "./auth.route";
+import userRoute from "./user";
 
 const appRoute: Router = express.Router();
 
@@ -10,5 +11,6 @@ appRoute.get("/", (req, res) => {
 });
 
 appRoute.use("/auth", authRoute)
+appRoute.use(userRoute)
 
 export default appRoute;

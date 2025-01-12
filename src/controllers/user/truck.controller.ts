@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
-import userService from "../../services/user.service";
+import truckService from "../../services/truck.service";
 
 const TruckController = {
   getTrucks: async (req : Request, res: Response): Promise<any>=>{
     try{
-      const response = await userService.postCreateUser(req)
+      const response = await truckService.getTrucks(req)
       if(!response.status){
         return res.status(400).json(response);
       }
@@ -18,7 +18,7 @@ const TruckController = {
   },
   createTruck: async (req : Request, res: Response): Promise<any>=>{
     try{
-      const response = await userService.postCreateUser(req)
+      const response = await truckService.createTruck(req)
       if(!response.status){
         return res.status(400).json(response);
       }
@@ -32,7 +32,7 @@ const TruckController = {
   },
   updateTruckStatus: async (req : Request, res: Response): Promise<any>=>{
     try{
-      const response = await userService.postCreateUser(req)
+      const response = await truckService.updateTruckStatus(req)
       if(!response.status){
         return res.status(400).json(response);
       }
