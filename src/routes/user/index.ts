@@ -11,7 +11,7 @@ userRoute.get("/", (req, res) => {
   res.send("<h1>Welcome to SGI-CFA Truck management: User</h1>");
 });
 
-userRoute.use("/truck", truckRoute);
+userRoute.use("/truck", authenticateUser, truckRoute);
 userRoute.get("/dashboard", UserController.getDashboard);
 
 
