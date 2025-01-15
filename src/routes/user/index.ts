@@ -12,7 +12,7 @@ userRoute.get("/", (req, res) => {
 });
 
 userRoute.use("/truck", authenticateUser, truckRoute);
-userRoute.get("/dashboard", UserController.getDashboard);
+userRoute.get("/dashboard", authenticateUser, UserController.getDashboard);
 
 
 export default userRoute;

@@ -1,10 +1,10 @@
 import { Request, Response } from "express"
-import userService from "../../services/user.service";
+import truckService from "../../services/truck.service";
 
 const UserController = {
   getDashboard: async (req : Request, res: Response): Promise<any>=>{
     try{
-      const response = await userService.postCreateUser(req)
+      const response = await truckService.getDashboardService(req)
 
       if(!response.status){
         return res.status(400).json(response);

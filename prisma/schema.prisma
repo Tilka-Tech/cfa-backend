@@ -40,29 +40,30 @@ model Token {
 }
 
 model Truck {
-  id                 String              @id @default(uuid())
-  plateNumber        String              @unique
+  id                 String    @id @default(uuid())
+  plateNumber        String    @unique
   capacity           String
   type               String
-  status             String?             @default("available")
+  status             String?   @default("available")
   ownerId            String
-  owner              User                @relation(fields: [ownerId], references: [id], name: "owner")
+  owner              User      @relation(fields: [ownerId], references: [id], name: "owner")
   creatorId          String
-  creator            User                @relation(fields: [creatorId], references: [id], name: "created")
+  creator            User      @relation(fields: [creatorId], references: [id], name: "created")
   order              Order[]
-  registrationPapers RegistrationPaper[]
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime?           @updatedAt
+  registrationPapers Json[]
+  // registrationPapers RegistrationPaper[]
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime? @updatedAt
 }
 
-model RegistrationPaper {
-  id        String   @id @default(uuid())
-  paperUrl  String
-  truck     Truck    @relation(fields: [truckId], references: [id], onDelete: Cascade)
-  truckId   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+// model RegistrationPaper {
+//   id        String   @id @default(uuid())
+//   paperUrl  String
+//   truck     Truck    @relation(fields: [truckId], references: [id], onDelete: Cascade)
+//   truckId   String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
 model Order {
   id              String      @id @default(uuid())

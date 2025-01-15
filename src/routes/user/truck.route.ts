@@ -15,11 +15,11 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'tempImageStorage');
   },
-  filename: (req, file, cb) => {
-    const uuid = randomUUID();
-    const extension = file.originalname.split('.').pop(); // Get file extension
-    cb(null, `${file.fieldname}-${uuid}.${extension}`);
-  }
+  // filename: (req, file, cb) => {
+  //   const uuid = randomUUID();
+  //   const extension = file.originalname.split('.').pop(); // Get file extension
+  //   cb(null, `${file.fieldname}-${uuid}.${extension}`);
+  // }
 });
 
 // File filter configuration
