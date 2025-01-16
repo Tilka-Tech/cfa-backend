@@ -23,6 +23,14 @@ const AuthService = {
     if(!foundUser){
       return {message: "invalid email or password", status: false}
     }
+    
+      if (!foundUser.isVerified) {
+       return   {
+          message: "User Pending Approval",
+          status: false,
+        };
+        
+      }
     const isPasswordMatch = await bcrypt.compare(password, foundUser.password);
 
     if(!isPasswordMatch)return {message: "invalid email or password", status: false};

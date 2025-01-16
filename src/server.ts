@@ -36,6 +36,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 // app.use(formData.parse());
 // swagger auto gen
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOutput));
