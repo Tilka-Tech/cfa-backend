@@ -10,17 +10,17 @@ import { randomUUID } from "crypto";
 const truckRoute: Router = express.Router();
 
 // Storage configuration
-// const storage = multer.memoryStorage();
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'tempImageStorage');
-  },
-  // filename: (req, file, cb) => {
-  //   const uuid = randomUUID();
-  //   const extension = file.originalname.split('.').pop(); // Get file extension
-  //   cb(null, `${file.fieldname}-${uuid}.${extension}`);
-  // }
-});
+const storage = multer.memoryStorage();
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'tempImageStorage');
+//   },
+//   // filename: (req, file, cb) => {
+//   //   const uuid = randomUUID();
+//   //   const extension = file.originalname.split('.').pop(); // Get file extension
+//   //   cb(null, `${file.fieldname}-${uuid}.${extension}`);
+//   // }
+// });
 
 // File filter configuration
 const fileFilter = (req: any, file: Express.Multer.File, cb: FileFilterCallback)=> {
