@@ -1,12 +1,11 @@
 
 import express, { Router, response } from "express";
+import dashboardRoute from "./dashboard.route";
 
 
 const adminRoute: Router = express.Router();
 
-adminRoute.get("/", (req, res) => {
-  res.send("<h1>Welcome to SGI-CFA Truck management: Admin</h1>");
-});
+adminRoute.use("/dashboard", dashboardRoute);
 
 
 export default adminRoute;
