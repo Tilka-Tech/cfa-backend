@@ -7,10 +7,6 @@ import { authenticateUser } from "../../middleware/auth";
 
 const userRoute: Router = express.Router();
 
-userRoute.get("/", (req, res) => {
-  res.send("<h1>Welcome to SGI-CFA Truck management: User</h1>");
-});
-
 userRoute.use("/truck", authenticateUser, truckRoute);
 userRoute.get("/dashboard", authenticateUser, UserController.getDashboard);
 

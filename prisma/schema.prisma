@@ -9,22 +9,24 @@ datasource db {
 }
 
 model User {
-  id         String        @id @default(uuid())
-  fullname   String
-  email      String        @unique
-  phone      String
-  isVerified Boolean       @default(false)
-  userType   UserType
-  password   String
-  roleId     String?
-  role       Role?         @relation(fields: [roleId], references: [id])
-  truck      Truck[]       @relation(name: "owner")
-  createdBy  Truck[]       @relation(name: "created")
-  addresses  UserAddress[]
-  order      Order[]
-  token      Token[]
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime?     @updatedAt
+  id          String        @id @default(uuid())
+  isVerified   Boolean       @default(false)
+  fullname    String
+  email       String        @unique
+  phone       String
+  userType    UserType
+  password    String
+  roleId      String?
+  role        Role?         @relation(fields: [roleId], references: [id])
+  truck       Truck[]       @relation(name: "owner")
+  createBy    Truck[]       @relation(name: "created")
+  addresses   UserAddress[]
+  order       Order[]
+  token       Token[]
+  status      UserStatus?
+  transaction Transaction[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime?     @updatedAt
 }
 
 model Token {
@@ -40,20 +42,31 @@ model Token {
 }
 
 model Truck {
-  id                 String    @id @default(uuid())
-  plateNumber        String    @unique
+  // id                 String    @id @default(uuid())
+  // plateNumber        String    @unique
   capacity           String
   type               String
-  status             String?   @default("available")
-  ownerId            String
-  owner              User      @relation(fields: [ownerId], references: [id], name: "owner")
-  creatorId          String
-  creator            User      @relation(fields: [creatorId], references: [id], name: "created")
-  order              Order[]
+  // status             String?   @default("available")
+  // ownerId            String
+  // owner              User      @relation(fields: [ownerId], references: [id], name: "owner")
+  // creatorId          String
+  // creator            User      @relation(fields: [creatorId], references: [id], name: "created")
+  // order              Order[]
   registrationPapers Json[]
   // registrationPapers RegistrationPaper[]
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime? @updatedAt
+  // createdAt          DateTime  @default(now())
+  // updatedAt          DateTime? @updatedAt
+
+  id          String    @id @default(uuid())
+  plateNumber String    @unique
+  status      TruckStatus
+  ownerId     String
+  owner       User      @relation(fields: [ownerId], references: [id], name: "owner")
+  createdById String
+  createdBy   User      @relation(fields: [createdById], references: [id], name: "created")
+  order       Order[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
 }
 
 // model RegistrationPaper {
@@ -77,6 +90,23 @@ model Order {
   deliveryAddress UserAddress @relation(fields: [deliveryId], references: [id], name: "delivery")
   recipientName   String
   recipientPhone  String
+  status          OrderStatus
+  transaction     Transaction?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime?   @updatedAt
+}
+
+model Transaction {
+  id              String      @id @default(uuid())
+  orderId         String      @unique
+  order           Order       @relation(fields: [orderId], references: [id])
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+  description     String
+  transactionId   String
+  type            TransactionType
+  amount          Int
+  recieptUrl      String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime?   @updatedAt
 }
@@ -125,4 +155,29 @@ enum UserType {
   User
   Driver
   TruckOwner
+}
+
+enum TruckStatus {
+  In_Transit
+  Under_Repair
+  Available
+  Removed
+}
+
+enum OrderStatus {
+  Pending
+  Completed
+  In_Progress
+}
+
+enum UserStatus {
+  Pending
+  Active
+  Suspended
+}
+
+enum TransactionType {
+  Shopping
+  Transfer
+  Service
 }

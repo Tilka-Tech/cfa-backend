@@ -1,12 +1,13 @@
-import { Request, Response } from "express"
-import truckService from "../../services/truck.service";
+import { Request, Response } from "express";
+import authService from "../../services/auth.service";
 
-const UserController = {
-  getDashboard: async (req : Request, res: Response): Promise<any>=>{
+
+const DashboardController = {
+  getAnalytics: async (req: Request, res: Response ): Promise<any> =>{
     try{
       /*
-        #swagger.tags= ['Users']
-        #swagger.description = get user dashboard data
+        #swagger.tags= ['Admin']
+        #swagger.description = 'Get analytics data.
         #swagger.requestBody = {
           required: true,
           content: {
@@ -22,7 +23,7 @@ const UserController = {
           }
         } 
       */
-      const response = await truckService.getDashboardService(req);
+      const response = await authService.postLogIn(req);
 
     /* #swagger.responses[200] = {
       description: "Login response",
@@ -55,8 +56,8 @@ const UserController = {
         status: false,
       });
     }
-  }
+  },
+
 }
 
-
-export default UserController
+export default DashboardController
