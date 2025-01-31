@@ -3,15 +3,21 @@ import swaggerAutogen from 'swagger-autogen';
 const doc = {
     info: {
         version: 'v1.0.0',
-        title: 'Swagger Demo Project',
-        description: 'Implementation of Swagger with TypeScript'
+        title: 'SGI-CFA',
+        description: 'SGI-CFA project for logistic app',
+        tags: ["All"]
     },
     servers: [
         {
-            url: process.env.BASE_URL,
-            description: ''
+            url: "http://localhost:8000",
+            description: 'Localhost server'
+        },
+        {
+            url: "http://localhost:3000",
+            description: 'Staging server'
         },
     ],
+    
     components: {
         securitySchemes: {
             bearerAuth: {
@@ -41,7 +47,25 @@ const doc = {
                 $password: 'Password'
             },
         },
-    }
+    },
+    tags: [
+      {
+        name: 'Users',
+        description: 'Users endpoints for truck owners',
+      },
+      {
+        name: 'Admin',
+        description: 'Admin endpoints for all administrative users',
+      },
+      {
+        name: 'Driver',
+        description: 'Drivers endpoints',
+      },
+      {
+        name: 'Auth',
+        description: 'Authentication encpoints for all users',
+      },
+    ],
 };
 
 const outputFile = './swagger_output.json';

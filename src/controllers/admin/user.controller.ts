@@ -1,12 +1,13 @@
-import { Request, response, Response } from "express"
-import truckService from "../../services/truck.service";
+import { Request, Response } from "express";
+import AdminService from "../../services/admin.service";
 
-const TruckController = {
-  getTrucks: async (req : Request, res: Response): Promise<any>=>{
+
+const UserController = {
+  getUsers: async (req: Request, res: Response ): Promise<any> =>{
     try{
       /*
-        #swagger.tags= ['Users']
-        #swagger.description = Get users trucks
+        #swagger.tags= ['Admin']
+        #swagger.description = Get lists of all users
         #swagger.requestBody = {
           required: true,
           content: {
@@ -22,7 +23,7 @@ const TruckController = {
           }
         } 
       */
-      const response = await truckService.getTrucks(req);
+      const response = await AdminService.getUsers(req);
 
     /* #swagger.responses[200] = {
       description: "Login response",
@@ -57,11 +58,11 @@ const TruckController = {
     }
   },
 
-  createTruck: async (req : Request, res: Response): Promise<any>=>{
+  getOneUser: async (req: Request, res: Response ): Promise<any> =>{
     try{
       /*
-        #swagger.tags= ['Users']
-        #swagger.description = Create new truck by truck owner
+        #swagger.tags= ['Admin']
+        #swagger.description = Get one user by id
         #swagger.requestBody = {
           required: true,
           content: {
@@ -77,7 +78,7 @@ const TruckController = {
           }
         } 
       */
-      const response = await truckService.createTruck(req);
+      const response = await AdminService.getOneUser(req);
 
     /* #swagger.responses[200] = {
       description: "Login response",
@@ -112,11 +113,11 @@ const TruckController = {
     }
   },
 
-  updateTruck: async (req : Request, res: Response): Promise<any>=>{
+  getRoles: async (req: Request, res: Response ): Promise<any> =>{
     try{
       /*
-        #swagger.tags= ['Users']
-        #swagger.description = Update truck details
+        #swagger.tags= ['Admin']
+        #swagger.description = Get all roles
         #swagger.requestBody = {
           required: true,
           content: {
@@ -132,7 +133,7 @@ const TruckController = {
           }
         } 
       */
-      const response = await truckService.updateTruck(req);
+      const response = await AdminService.getRoles(req);
 
     /* #swagger.responses[200] = {
       description: "Login response",
@@ -167,11 +168,11 @@ const TruckController = {
     }
   },
 
-  deleteTruck: async (req : Request, res: Response): Promise<any>=>{
+  getOneRole: async (req: Request, res: Response ): Promise<any> =>{
     try{
       /*
-        #swagger.tags= ['Users']
-        #swagger.description = Delete truck.
+        #swagger.tags= ['Admin']
+        #swagger.description = 'get single role by id.
         #swagger.requestBody = {
           required: true,
           content: {
@@ -187,7 +188,7 @@ const TruckController = {
           }
         } 
       */
-      const response = await truckService.deleteTruck(req);
+      const response = await AdminService.getOneRole(req);
 
     /* #swagger.responses[200] = {
       description: "Login response",
@@ -222,11 +223,11 @@ const TruckController = {
     }
   },
 
-  getTruckById: async (req : Request, res: Response): Promise<any>=>{
+  createRole: async (req: Request, res: Response ): Promise<any> =>{
     try{
       /*
-        #swagger.tags= ['Users']
-        #swagger.description = Get truck by id
+        #swagger.tags= ['Admin']
+        #swagger.description = 'Create new role.
         #swagger.requestBody = {
           required: true,
           content: {
@@ -242,7 +243,7 @@ const TruckController = {
           }
         } 
       */
-      const response = await truckService.getTruckById(req);
+      const response = await AdminService.createRole(req);
 
     /* #swagger.responses[200] = {
       description: "Login response",
@@ -277,11 +278,11 @@ const TruckController = {
     }
   },
 
-  getTruckStatusReport: async (req : Request, res: Response): Promise<any>=>{
+  createUser: async (req: Request, res: Response ): Promise<any> =>{
     try{
       /*
-        #swagger.tags= ['Users']
-        #swagger.description = Get truck status report
+        #swagger.tags= ['Admin']
+        #swagger.description = 'Create new user.
         #swagger.requestBody = {
           required: true,
           content: {
@@ -296,29 +297,27 @@ const TruckController = {
             }
           }
         } 
-      */
-      const response = await truckService.getTruckStatusReport(req);
-
-    /* #swagger.responses[200] = {
-      description: "Login response",
-        content: {
-          "application/json": {
-            schema:{
-              $ref: "#/components/schemas/loginSchema"
-            },
-            example: {
-              status: true,
-              data: {
-                email: 'johndoe@sample.com',
-                fullname: 'John Doe',
-                phone: '08012345678'
+        #swagger.responses[200] = {
+          description: "Login response",
+          content: {
+            "application/json": {
+              schema:{
+                $ref: "#/components/schemas/loginSchema"
               },
-              message: "Successful message"
-            }
-          }           
+              example: {
+                status: true,
+                data: {
+                  email: 'johndoe@sample.com',
+                  fullname: 'John Doe',
+                  phone: '08012345678'
+                },
+                message: "Successful message"
+              }
+            }           
+          }
         }
-      }
-    */
+      */
+      const response = await AdminService.createUser(req);
       if(!response.status){
         return res.status(400).json(response);
       }
@@ -330,9 +329,8 @@ const TruckController = {
         status: false,
       });
     }
-  }
+  },
 
 }
 
-
-export default TruckController
+export default UserController

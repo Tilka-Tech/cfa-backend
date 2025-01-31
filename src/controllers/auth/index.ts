@@ -5,7 +5,10 @@ import authService from "../../services/auth.service";
 const AuthController = {
   postLogIn: async (req: Request, res: Response ): Promise<any> =>{
     try{
-      /*  #swagger.requestBody = {
+      /*
+        #swagger.tags= ['Auth']
+        #swagger.description = Login to get user token.
+        #swagger.requestBody = {
           required: true,
           content: {
             "application/json": {
@@ -57,7 +60,10 @@ const AuthController = {
 
   postCreateUser: async (req : Request, res: Response): Promise<any>=>{
     try{
-      /*  #swagger.requestBody = {
+      /*
+        #swagger.tags= ['Auth']
+        #swagger.description = 'Register as truck owner.
+        #swagger.requestBody = {
           required: true,
           content: {
             "application/json": {
@@ -110,7 +116,10 @@ const AuthController = {
 
   forgotPassword: async (req : Request, res: Response): Promise<any>=>{
     try{
-      /*  #swagger.requestBody = {
+      /*
+        #swagger.tags= ['Auth']
+        #swagger.description = request forgot password token.
+        #swagger.requestBody = {
           required: true,
           content: {
             "application/json": {
@@ -156,7 +165,10 @@ const AuthController = {
 
   verifyToken: async (req : Request, res: Response): Promise<any>=>{
     try{
-      /*  #swagger.requestBody = {
+      /*
+        #swagger.tags= ['Auth']
+        #swagger.description = verify token
+        #swagger.requestBody = {
           required: true,
           content: {
             "application/json": {
@@ -201,7 +213,10 @@ const AuthController = {
   
   resetPassword: async (req : Request, res: Response): Promise<any>=>{
     try{
-      /*  #swagger.requestBody = {
+      /*
+        #swagger.tags= ['Auth']
+        #swagger.description = Reset password
+        #swagger.requestBody = {
           required: true,
           content: {
             "application/json": {
