@@ -1,5 +1,6 @@
 import { Request } from "express";
 import prismaClient from "../../prisma/prisma";
+import { OrderStatus } from "@prisma/client";
 // import axios from 'axios';
 // import FormData from 'form-data';
 // import fs from 'fs';
@@ -17,11 +18,24 @@ const truckService = {
         where: { ownerId: req.user.id, status: "In_Transit" },
     })).length;
 
+
+    // Await the result for order that are "completed"
+    const completedJobCount = await prismaClient.order.count({
+      where: {
+        status: "Completed",
+        truck: {
+          ownerId: req.user.id,
+        },
+      },
+    });
+    
+
     return {
       status: true,
       data: {
         totalTrucks: truckCount,
         onTransitTrucks: onTransitCount,
+        completedTrips: completedJobCount
       },
     };
   },
@@ -32,13 +46,19 @@ const truckService = {
     const whereCondition: any = {
       ownerId: req.user.id, // Always filter by ownerId
     };
-  
     if (status) {
       whereCondition.status = status; // Add status filter if it's provided
     }
   
     const allOwnerTrucks = await prismaClient.truck.findMany({
       where: whereCondition,
+      include: {
+        driver: {
+          select: {
+            fullname: true
+          }
+        }
+      }
     });
   
     return { status: true, data: allOwnerTrucks };
@@ -208,7 +228,7 @@ const truckService = {
       suspendedCount: 0,
       availableCount: 0,
       onTransitCount: 0,
-      underRepairCount: 0,
+      underMaintenanceCount: 0,
     };
   
     truckStatusCounts.forEach(({ status, _count }) => {
@@ -222,13 +242,27 @@ const truckService = {
         case "In_Transit":
           report.onTransitCount = _count.status;
           break;
-        case "Under_Repair":
-          report.underRepairCount = _count.status;
+        case "Under_Maintenance":
+          report.underMaintenanceCount = _count.status;
           break;
       }
     });
   
     return { status: true, data: report };
+  },
+
+  getCompletedJobs: async (req: Request): Promise<any> =>{
+
+    const {status} = req.query;
+    const completedJob = prismaClient.order.findMany(
+      {
+        where: {
+          status: status  as OrderStatus
+        }
+      }
+    )
+
+    return {status: true, data: completedJob}
   }
 }
 

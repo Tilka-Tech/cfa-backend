@@ -26,7 +26,7 @@ const AuthService = {
     
       if (!foundUser.isVerified) {
        return   {
-          message: "User Pending Approval",
+          message: "unverified user",
           status: false,
         };
         

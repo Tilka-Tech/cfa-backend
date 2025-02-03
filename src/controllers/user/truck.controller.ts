@@ -330,6 +330,25 @@ const TruckController = {
         status: false,
       });
     }
+  },
+
+  getCompletedJobs: async (req: Request, res: Response): Promise<any> =>{
+    try{
+
+      const response = await truckService.getCompletedJobs(req)
+
+      if(!response.status){
+        return res.status(400).json(response);
+      }
+      res.json(response)
+
+    }catch(err){
+      console.log(err);
+      res.status(500).json({
+        message: `Internal Server Error`,
+        status: false,
+      });
+    }
   }
 
 }
