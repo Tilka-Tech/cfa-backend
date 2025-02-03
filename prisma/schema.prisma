@@ -10,16 +10,18 @@ datasource db {
 
 model User {
   id          String        @id @default(uuid())
-  isVerified   Boolean       @default(false)
+  isVerified  Boolean       @default(false)
   fullname    String
   email       String        @unique
   phone       String
   userType    UserType
   password    String
+  // userImage   Json
   roleId      String?
   role        Role?         @relation(fields: [roleId], references: [id])
   truck       Truck[]       @relation(name: "owner")
   createBy    Truck[]       @relation(name: "created")
+  truckDriver Truck?        @relation(name: "driver")
   addresses   UserAddress[]
   order       Order[]
   token       Token[]
@@ -57,16 +59,19 @@ model Truck {
   // createdAt          DateTime  @default(now())
   // updatedAt          DateTime? @updatedAt
 
-  id          String    @id @default(uuid())
-  plateNumber String    @unique
+  id          String      @id @default(uuid())
+  plateNumber String      @unique
   status      TruckStatus
   ownerId     String
-  owner       User      @relation(fields: [ownerId], references: [id], name: "owner")
+  owner       User        @relation(fields: [ownerId], references: [id], name: "owner")
   createdById String
-  createdBy   User      @relation(fields: [createdById], references: [id], name: "created")
+  createdBy   User        @relation(fields: [createdById], references: [id], name: "created")
   order       Order[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
+  driverId    String?     @unique
+  driver      User?       @relation(fields: [driverId], references: [id], name: "driver")
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 // model RegistrationPaper {
@@ -79,36 +84,36 @@ model Truck {
 // }
 
 model Order {
-  id              String      @id @default(uuid())
+  id              String       @id @default(uuid())
   userId          String
-  user            User        @relation(fields: [userId], references: [id])
+  user            User         @relation(fields: [userId], references: [id])
   truckId         String
-  truck           Truck       @relation(fields: [truckId], references: [id])
+  truck           Truck        @relation(fields: [truckId], references: [id])
   pickupId        String
-  pickupAddress   UserAddress @relation(fields: [pickupId], references: [id], name: "pickup")
+  pickupAddress   UserAddress  @relation(fields: [pickupId], references: [id], name: "pickup")
   deliveryId      String
-  deliveryAddress UserAddress @relation(fields: [deliveryId], references: [id], name: "delivery")
+  deliveryAddress UserAddress  @relation(fields: [deliveryId], references: [id], name: "delivery")
   recipientName   String
   recipientPhone  String
   status          OrderStatus
   transaction     Transaction?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime?   @updatedAt
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime?    @updatedAt
 }
 
 model Transaction {
-  id              String      @id @default(uuid())
-  orderId         String      @unique
-  order           Order       @relation(fields: [orderId], references: [id])
-  userId          String
-  user            User        @relation(fields: [userId], references: [id])
-  description     String
-  transactionId   String
-  type            TransactionType
-  amount          Int
-  recieptUrl      String?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime?   @updatedAt
+  id            String          @id @default(uuid())
+  orderId       String          @unique
+  order         Order           @relation(fields: [orderId], references: [id])
+  userId        String
+  user          User            @relation(fields: [userId], references: [id])
+  description   String
+  transactionId String
+  type          TransactionType
+  amount        Int
+  recieptUrl    String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime?       @updatedAt
 }
 
 model UserAddress {
@@ -159,7 +164,7 @@ enum UserType {
 
 enum TruckStatus {
   In_Transit
-  Under_Repair
+  Under_Maintenance
   Available
   Removed
 }

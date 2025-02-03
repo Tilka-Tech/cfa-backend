@@ -37,6 +37,7 @@ const truckRoute: Router = express.Router();
 // const upload = multer({ storage, fileFilter ,limits }).array('registrationPapers')
 
 truckRoute.get("/", TruckController.getTrucks);
+truckRoute.get('/completed', TruckController.getCompletedJobs)
 truckRoute.post("/", validate(truckValidation.createTruck), TruckController.createTruck);
 truckRoute.patch("/:truckId", validate(truckValidation.updateTruck), TruckController.updateTruck);
 truckRoute.delete("/:truckId", TruckController.deleteTruck);
