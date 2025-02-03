@@ -16,7 +16,7 @@ model User {
   phone       String
   userType    UserType
   password    String
-  // userImage   Json[]
+  // userImage   Json
   roleId      String?
   role        Role?         @relation(fields: [roleId], references: [id])
   truck       Truck[]       @relation(name: "owner")
