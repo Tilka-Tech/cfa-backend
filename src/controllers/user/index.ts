@@ -7,40 +7,26 @@ const UserController = {
       /*
         #swagger.tags= ['Users']
         #swagger.description = get user dashboard data
-        #swagger.requestBody = {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/loginSchema"
-              },
-              example: {
-                email: 'johndoe@sample.com',
-                password: "password"
-              }
-            }
-          }
-        } 
       */
       const response = await truckService.getDashboardService(req);
 
     /* #swagger.responses[200] = {
-      description: "Login response",
+      description: "dashboard response",
         content: {
           "application/json": {
             schema:{
-              $ref: "#/components/schemas/loginSchema"
+              $ref: "#/components/schemas/truckRegistrationSchema"
             },
             example: {
               status: true,
               data: {
-                email: 'johndoe@sample.com',
-                fullname: 'John Doe',
-                phone: '08012345678'
-              },
+              totalTrucks: 8,
+              onTransitTrucks: 1,
+              completedTrips: 0
+            },
               message: "Successful message"
             }
-          }           
+          }
         }
       }
     */
