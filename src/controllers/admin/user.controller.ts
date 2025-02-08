@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import AdminService from "../../services/admin.service";
+import AdminService from "../../services/admin/admin.service";
 
 
 const UserController = {

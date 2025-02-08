@@ -335,7 +335,46 @@ const TruckController = {
   getCompletedJobs: async (req: Request, res: Response): Promise<any> =>{
     try{
 
-      const response = await truckService.getCompletedJobs(req)
+      /*
+        #swagger.tags= ['Users']
+        #swagger.description = Get truck status report
+        #swagger.requestBody = {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/loginSchema"
+              },
+              example: {
+                email: 'johndoe@sample.com',
+                password: "password"
+              }
+            }
+          }
+        } 
+      */
+        const response = await truckService.getCompletedJobs(req);
+
+        /* #swagger.responses[200] = {
+          description: "Login response",
+            content: {
+              "application/json": {
+                schema:{
+                  $ref: "#/components/schemas/loginSchema"
+                },
+                example: {
+                  status: true,
+                  data: {
+                    email: 'johndoe@sample.com',
+                    fullname: 'John Doe',
+                    phone: '08012345678'
+                  },
+                  message: "Successful message"
+                }
+              }           
+            }
+          }
+        */
 
       if(!response.status){
         return res.status(400).json(response);

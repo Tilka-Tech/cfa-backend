@@ -1,9 +1,9 @@
 import { Request } from "express"
-import prisma from "../../prisma/prisma";
+import prisma from "../../../prisma/prisma";
 import bcrypt from "bcrypt";
 import { Prisma } from "@prisma/client";
 
-const AdminService = {
+const TruckService = {
   getDashboardAnalytics: async (req: Request)=>{
 
     // get analytics data
@@ -216,4 +216,4 @@ const AdminService = {
   },
 }
 
-export default AdminService
+export default TruckService

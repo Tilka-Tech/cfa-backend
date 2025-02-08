@@ -444,6 +444,67 @@
         }
       }
     },
+    "/user/truck/completed": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Get truck status report",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      }
+    },
     "/user/truck/{truckId}": {
       "patch": {
         "tags": [
@@ -1012,6 +1073,320 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/booking/{id}": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Create new role.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Get one user by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/booking/": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Get lists of all users",
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Some description...",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/admin/truck/{id}": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Create new user.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "get single role by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/truck/": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Get lists of all users",
         "responses": {
           "200": {
             "description": "Login response",
