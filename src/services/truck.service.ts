@@ -19,7 +19,7 @@ const truckService = {
     })).length;
 
 
-    // Await the result for order that are "completed"
+    // Await the count for order that are "completed"
     const completedJobCount = await prismaClient.order.count({
       where: {
         status: "Completed",
@@ -28,14 +28,24 @@ const truckService = {
         },
       },
     });
-    
+
+        // Await the result for order that are "completed"
+        const completedJob = await prismaClient.order.findMany({
+          where: {
+            status: "Completed",
+            truck: {
+              ownerId: req.user.id
+            },
+          },
+        });
 
     return {
       status: true,
       data: {
         totalTrucks: truckCount,
         onTransitTrucks: onTransitCount,
-        completedTrips: completedJobCount
+        completedTrips: completedJobCount,
+        completedJob
       },
     };
   },
@@ -78,7 +88,7 @@ const truckService = {
         status: "Available",
         ownerId: id, // Default to user ID if no owner is provided
         registrationPapers,
-        locationId: ""
+        locationId: null
       }
     });
     return { status: true, data: createdTruck };
