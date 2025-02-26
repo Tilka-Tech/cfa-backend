@@ -59,18 +59,18 @@ model Truck {
   // createdAt          DateTime  @default(now())
   // updatedAt          DateTime? @updatedAt
 
-  id              String      @id @default(uuid())
-  plateNumber     String      @unique
+  id              String       @id @default(uuid())
+  plateNumber     String       @unique
   status          TruckStatus
   ownerId         String
-  owner           User        @relation(fields: [ownerId], references: [id], name: "owner")
+  owner           User         @relation(fields: [ownerId], references: [id], name: "owner")
   createdById     String
-  createdBy       User        @relation(fields: [createdById], references: [id], name: "created")
+  createdBy       User         @relation(fields: [createdById], references: [id], name: "created")
   order           Order[]
-  driverId        String?     @unique
-  driver          User?       @relation(fields: [driverId], references: [id], name: "driver")
-  locationId      String
-  locationAddress UserAddress @relation(fields: [locationId], references: [id], name: "currentLocation")
+  driverId        String?      @unique
+  driver          User?        @relation(fields: [driverId], references: [id], name: "driver")
+  locationId      String?
+  locationAddress UserAddress? @relation(fields: [locationId], references: [id], name: "currentLocation")
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -86,21 +86,25 @@ model Truck {
 // }
 
 model Order {
-  id              String       @id @default(uuid())
-  userId          String
-  user            User         @relation(fields: [userId], references: [id])
-  truckId         String
-  truck           Truck        @relation(fields: [truckId], references: [id])
-  pickupId        String
-  pickupAddress   UserAddress  @relation(fields: [pickupId], references: [id], name: "pickup")
-  deliveryId      String
-  deliveryAddress UserAddress  @relation(fields: [deliveryId], references: [id], name: "delivery")
-  recipientName   String
-  recipientPhone  String
-  status          OrderStatus
-  transaction     Transaction?
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime?    @updatedAt
+  id                            String       @id @default(uuid())
+  userId                        String
+  user                          User         @relation(fields: [userId], references: [id])
+  truckId                       String?
+  truck                         Truck?       @relation(fields: [truckId], references: [id])
+  pickupId                      String
+  pickupAddress                 UserAddress  @relation(fields: [pickupId], references: [id], name: "pickup")
+  deliveryId                    String
+  deliveryAddress               UserAddress  @relation(fields: [deliveryId], references: [id], name: "delivery")
+  neededTruckType               String
+  commodityToDeliver            String
+  estimatedWeightOfDelivarables String
+  numberOfDeleverable           String
+  recipientName                 String
+  recipientPhone                String
+  status                        OrderStatus
+  transaction                   Transaction?
+  createdAt                     DateTime     @default(now())
+  updatedAt                     DateTime?    @updatedAt
 }
 
 model Transaction {

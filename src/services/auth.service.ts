@@ -20,6 +20,7 @@ const AuthService = {
     const foundUser = await prismaClient.user.findUnique({
         where: { email }
     });
+    console.log(foundUser)
     if(!foundUser){
       return {message: "invalid email or password", status: false}
     }

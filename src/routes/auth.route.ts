@@ -5,7 +5,7 @@ import AuthValidation from "../validations/auth.validation";
 
 const authRoute = express.Router();
 
-authRoute.post("/login", validate(AuthValidation.login), AuthController.postLogIn)
+authRoute.post("/login", validate(AuthValidation.login), AuthController.postLogIn);
 authRoute.post("/register", validate(AuthValidation.register), AuthController.postCreateUser)
 authRoute.post("/forgot-password", validate(AuthValidation.forgotPassword), AuthController.forgotPassword)
 authRoute.post("/verify-token", validate(AuthValidation.verifyToken), AuthController.verifyToken)
