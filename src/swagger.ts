@@ -9,11 +9,11 @@ const doc = {
     },
     servers: [
         {
-            url: "http://localhost:8000",
+            url: "http://localhost:8000/api",
             description: 'Localhost server'
         },
         {
-            url: "http://localhost:3000",
+            url: "https://cfa-backend.onrender.com/api",
             description: 'Staging server'
         },
     ],

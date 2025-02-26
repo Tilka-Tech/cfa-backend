@@ -4,7 +4,23 @@ import prismaClient from "../../prisma/prisma";
 const orderService = {
     createOrderService: async(req: Request): Promise<any>=>{
         try {
-            const {neededTruckType, commodityToDeliver, estimatedWeightOfDelivarables, numberOfDeleverable, pickUpHouseNumber, pickupAddress, pickUpCity,pickUpState, deliveryHouseNumber, deliveryAddress, deliveryCity, deliveableState, country, recipientName, recipientPhone} = req.body;
+            const {
+                neededTruckType,
+                commodityToDeliver,
+                estimatedWeightOfDelivarables,
+                numberOfDeleverable,
+                pickUpHouseNumber,
+                pickupAddress,
+                pickUpCity,
+                pickUpState,
+                deliveryHouseNumber,
+                deliveryAddress,
+                deliveryCity,
+                deliveableState,
+                country,
+                recipientName,
+                recipientPhone
+            } = req.body;
 
             const {id: userId} = req.user
 

@@ -7,7 +7,7 @@ const OrderController = {
         try {
 
             /*
-            #swagger.tags = ['Orders']
+            #swagger.tags = ['Users']
             #swagger.description = 'Endpoint to create order',
             #swagger.requestBody = {
                 required: true,
