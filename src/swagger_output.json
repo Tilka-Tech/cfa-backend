@@ -280,18 +280,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "dashboard response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/truckRegistrationSchema"
                 },
                 "example": {
                   "status": true,
                   "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
+                    "totalTrucks": 8,
+                    "onTransitTrucks": 1,
+                    "completedTrips": 0
                   },
                   "message": "Successful message"
                 }
@@ -306,20 +306,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
           }
         }
       }
@@ -337,23 +323,83 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Fetch trucks by status",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "enum": {
+                  "type": "array",
+                  "example": [
+                    "Available",
+                    "In_Transit",
+                    "Under_Maintenance",
+                    "Removed"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "get all trucks",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/truckRegistrationSchema"
                 },
                 "example": {
                   "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
+                  "data": [
+                    {
+                      "capacity": "2500 tone",
+                      "type": "ferrari",
+                      "registrationPapers": [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      "plateNumber": "12132432425",
+                      "status": "Available",
+                      "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      "driverId": null,
+                      "createdAt": "2025-02-06T13:00:59.415Z",
+                      "updatedAt": "2025-02-06T13:00:59.415Z"
+                    },
+                    {
+                      "capacity": "2500 tone",
+                      "type": "ferrari",
+                      "registrationPapers": [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      "plateNumber": "12132432425",
+                      "status": "Available",
+                      "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      "driverId": null,
+                      "createdAt": "2025-02-06T13:00:59.415Z",
+                      "updatedAt": "2025-02-06T13:00:59.415Z"
+                    }
+                  ],
                   "message": "Successful message"
                 }
               }
@@ -367,20 +413,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
           }
         }
       },
@@ -404,14 +436,27 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/truckRegistrationSchema"
                 },
                 "example": {
                   "status": true,
                   "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
+                    "capacity": "2500 tone",
+                    "type": "ferrari",
+                    "registrationPapers": [
+                      {
+                        "key": "zlhzrwg420rw9y464px7",
+                        "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                      }
+                    ],
+                    "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                    "plateNumber": "12132432425",
+                    "status": "Available",
+                    "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                    "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                    "driverId": null,
+                    "createdAt": "2025-02-06T13:00:59.415Z",
+                    "updatedAt": "2025-02-06T13:00:59.415Z"
                   },
                   "message": "Successful message"
                 }
@@ -433,11 +478,18 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/loginSchema"
+                "$ref": "#/components/schemas/truckRegistrationSchema"
               },
               "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
+                "licensePlate": "12132432425",
+                "truckCapacity": "2500 tone",
+                "truckType": "ferrari",
+                "registrationPapers": [
+                  {
+                    "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png",
+                    "key": "zlhzrwg420rw9y464px7"
+                  }
+                ]
               }
             }
           }
@@ -449,7 +501,7 @@
         "tags": [
           "Users"
         ],
-        "description": "Get truck status report",
+        "description": "Get users trucks",
         "parameters": [
           {
             "name": "authorization",
@@ -457,23 +509,62 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Fetch completed trip by status",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "enum": {
+                  "type": "array",
+                  "example": [
+                    "Completed"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "completed job",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/truckRegistrationSchema"
                 },
                 "example": {
                   "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
+                  "data": [
+                    {
+                      "capacity": "2500 tone",
+                      "type": "ferrari",
+                      "registrationPapers": [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      "plateNumber": "12132432425",
+                      "status": "Completed",
+                      "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      "driverId": null,
+                      "createdAt": "2025-02-06T13:00:59.415Z",
+                      "updatedAt": "2025-02-06T13:00:59.415Z"
+                    }
+                  ],
                   "message": "Successful message"
                 }
               }
@@ -534,14 +625,27 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/truckRegistrationSchema"
                 },
                 "example": {
                   "status": true,
                   "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
+                    "capacity": "2500 tone",
+                    "type": "ferrari",
+                    "registrationPapers": [
+                      {
+                        "key": "zlhzrwg420rw9y464px7",
+                        "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                      }
+                    ],
+                    "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                    "plateNumber": "12132432425",
+                    "status": "Available",
+                    "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                    "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                    "driverId": null,
+                    "createdAt": "2025-02-06T13:00:59.415Z",
+                    "updatedAt": "2025-02-06T13:00:59.415Z"
                   },
                   "message": "Successful message"
                 }
@@ -563,11 +667,18 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/loginSchema"
+                "$ref": "#/components/schemas/truckRegistrationSchema"
               },
               "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
+                "licensePlate": "12132432425",
+                "truckCapacity": "2500 tone",
+                "truckType": "ferrari",
+                "registrationPapers": [
+                  {
+                    "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png",
+                    "key": "zlhzrwg420rw9y464px7"
+                  }
+                ]
               }
             }
           }
@@ -577,7 +688,7 @@
         "tags": [
           "Users"
         ],
-        "description": "Delete truck.",
+        "description": "Delete truck",
         "parameters": [
           {
             "name": "truckId",
@@ -597,19 +708,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "deleted by id",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/truckRegistrationSchema"
                 },
                 "example": {
                   "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
+                  "data": "deleted",
                   "message": "Successful message"
                 }
               }
@@ -623,20 +730,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
           }
         }
       },
@@ -664,18 +757,31 @@
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "get by id",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/truckRegistrationSchema"
                 },
                 "example": {
                   "status": true,
                   "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
+                    "capacity": "2500 tone",
+                    "type": "ferrari",
+                    "registrationPapers": [
+                      {
+                        "key": "zlhzrwg420rw9y464px7",
+                        "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                      }
+                    ],
+                    "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                    "plateNumber": "12132432425",
+                    "status": "Available",
+                    "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                    "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                    "driverId": null,
+                    "createdAt": "2025-02-06T13:00:59.415Z",
+                    "updatedAt": "2025-02-06T13:00:59.415Z"
                   },
                   "message": "Successful message"
                 }
@@ -690,20 +796,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
           }
         }
       }
@@ -729,14 +821,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/truckRegistrationSchema"
                 },
                 "example": {
                   "status": true,
                   "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
+                    "suspendedCount": 0,
+                    "availableCount": 2,
+                    "onTransitCount": 0,
+                    "underMaintenanceCount": 0
                   },
                   "message": "Successful message"
                 }
@@ -751,20 +844,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
           }
         }
       }
@@ -1522,6 +1601,49 @@
         "required": [
           "otp",
           "password"
+        ]
+      },
+      "truckRegistrationSchema": {
+        "type": "object",
+        "properties": {
+          "licensePlate": {
+            "type": "string",
+            "example": "12132432425"
+          },
+          "truckCapacity": {
+            "type": "string",
+            "example": "2500 tone"
+          },
+          "truckType": {
+            "type": "string",
+            "example": "ferrari"
+          },
+          "registrationPapers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "example": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                },
+                "key": {
+                  "type": "string",
+                  "example": "zlhzrwg420rw9y464px7"
+                }
+              },
+              "required": [
+                "url",
+                "key"
+              ]
+            }
+          }
+        },
+        "required": [
+          "licensePlate",
+          "truckCapacity",
+          "truckType",
+          "registrationPapers"
         ]
       }
     }

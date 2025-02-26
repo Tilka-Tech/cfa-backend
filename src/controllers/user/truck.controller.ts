@@ -4,43 +4,73 @@ import truckService from "../../services/truck.service";
 const TruckController = {
   getTrucks: async (req : Request, res: Response): Promise<any>=>{
     try{
-      /*
-        #swagger.tags= ['Users']
-        #swagger.description = Get users trucks
-        #swagger.requestBody = {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/loginSchema"
-              },
-              example: {
-                email: 'johndoe@sample.com',
-                password: "password"
-              }
-            }
+      /* 
+        #swagger.tags = ['Users']
+        #swagger.description = 'Get users trucks'
+        #swagger.parameters['status'] = {
+          in: 'query',
+          name: 'status',
+          description: 'Fetch trucks by status',
+          required: false,
+          schema: {
+            type: 'string',
+            enum: ['Available', 'In_Transit', 'Under_Maintenance', 'Removed']
           }
-        } 
+        }
       */
+
       const response = await truckService.getTrucks(req);
 
     /* #swagger.responses[200] = {
-      description: "Login response",
+      description: "get all trucks",
         content: {
           "application/json": {
             schema:{
-              $ref: "#/components/schemas/loginSchema"
+              $ref: "#/components/schemas/truckRegistrationSchema"
             },
             example: {
               status: true,
-              data: {
-                email: 'johndoe@sample.com',
-                fullname: 'John Doe',
-                phone: '08012345678'
-              },
+              data:  [
+                      {
+                capacity: "2500 tone",
+                  type: "ferrari",
+                  registrationPapers: [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      plateNumber: "12132432425",
+                      status: "Available",
+                      ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      driverId: null,
+                      createdAt: "2025-02-06T13:00:59.415Z",
+                      updatedAt: "2025-02-06T13:00:59.415Z"
+                    },
+                          {
+                capacity: "2500 tone",
+                  type: "ferrari",
+                  registrationPapers: [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      plateNumber: "12132432425",
+                      status: "Available",
+                      ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      driverId: null,
+                      createdAt: "2025-02-06T13:00:59.415Z",
+                      updatedAt: "2025-02-06T13:00:59.415Z"
+                    }
+                        ],
               message: "Successful message"
             }
-          }           
+          }
         }
       }
     */
@@ -61,22 +91,29 @@ const TruckController = {
     try{
       /*
         #swagger.tags= ['Users']
-        #swagger.description = Create new truck by truck owner
-        #swagger.requestBody = {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/loginSchema"
-              },
-              example: {
-                email: 'johndoe@sample.com',
-                password: "password"
-              }
-            }
-          }
-        } 
-      */
+         #swagger.description = Create new truck by truck owner
+         #swagger.requestBody = {
+           required: true,
+           content: {
+             "application/json": {
+               schema: {
+                 $ref: "#/components/schemas/truckRegistrationSchema"
+               },
+               example: {
+                licensePlate: "12132432425",
+                   truckCapacity: "2500 tone",
+                  truckType: "ferrari",
+                  registrationPapers: [
+                   {
+                      "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png",
+                      "key": "zlhzrwg420rw9y464px7"
+                    }
+                  ]
+               }
+             }
+           }
+         } 
+       */
       const response = await truckService.createTruck(req);
 
     /* #swagger.responses[200] = {
@@ -84,18 +121,31 @@ const TruckController = {
         content: {
           "application/json": {
             schema:{
-              $ref: "#/components/schemas/loginSchema"
+              $ref: "#/components/schemas/truckRegistrationSchema"
             },
             example: {
               status: true,
               data: {
-                email: 'johndoe@sample.com',
-                fullname: 'John Doe',
-                phone: '08012345678'
-              },
+                capacity: "2500 tone",
+                  type: "ferrari",
+                  registrationPapers: [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      plateNumber: "12132432425",
+                      status: "Available",
+                      ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      driverId: null,
+                      createdAt: "2025-02-06T13:00:59.415Z",
+                      updatedAt: "2025-02-06T13:00:59.415Z"
+                    },
               message: "Successful message"
             }
-          }           
+          }
         }
       }
     */
@@ -122,12 +172,19 @@ const TruckController = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/loginSchema"
+                $ref: "#/components/schemas/truckRegistrationSchema"
               },
               example: {
-                email: 'johndoe@sample.com',
-                password: "password"
-              }
+                licensePlate: "12132432425",
+                   truckCapacity: "2500 tone",
+                  truckType: "ferrari",
+                  registrationPapers: [
+                   {
+                      "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png",
+                      "key": "zlhzrwg420rw9y464px7"
+                    }
+                  ]
+               }
             }
           }
         } 
@@ -139,18 +196,31 @@ const TruckController = {
         content: {
           "application/json": {
             schema:{
-              $ref: "#/components/schemas/loginSchema"
+              $ref: "#/components/schemas/truckRegistrationSchema"
             },
-            example: {
+          example: {
               status: true,
               data: {
-                email: 'johndoe@sample.com',
-                fullname: 'John Doe',
-                phone: '08012345678'
-              },
+                capacity: "2500 tone",
+                  type: "ferrari",
+                  registrationPapers: [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      plateNumber: "12132432425",
+                      status: "Available",
+                      ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      driverId: null,
+                      createdAt: "2025-02-06T13:00:59.415Z",
+                      updatedAt: "2025-02-06T13:00:59.415Z"
+                    },
               message: "Successful message"
             }
-          }           
+          }
         }
       }
     */
@@ -171,41 +241,23 @@ const TruckController = {
     try{
       /*
         #swagger.tags= ['Users']
-        #swagger.description = Delete truck.
-        #swagger.requestBody = {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/loginSchema"
-              },
-              example: {
-                email: 'johndoe@sample.com',
-                password: "password"
-              }
-            }
-          }
-        } 
+        #swagger.description = Delete truck
       */
       const response = await truckService.deleteTruck(req);
 
     /* #swagger.responses[200] = {
-      description: "Login response",
+      description: "deleted by id",
         content: {
           "application/json": {
             schema:{
-              $ref: "#/components/schemas/loginSchema"
+              $ref: "#/components/schemas/truckRegistrationSchema"
             },
             example: {
-              status: true,
-              data: {
-                email: 'johndoe@sample.com',
-                fullname: 'John Doe',
-                phone: '08012345678'
-              },
-              message: "Successful message"
+                   status: true,
+                    data: "deleted",
+                    message: "Successful message"
             }
-          }           
+          }
         }
       }
     */
@@ -227,40 +279,39 @@ const TruckController = {
       /*
         #swagger.tags= ['Users']
         #swagger.description = Get truck by id
-        #swagger.requestBody = {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/loginSchema"
-              },
-              example: {
-                email: 'johndoe@sample.com',
-                password: "password"
-              }
-            }
-          }
-        } 
       */
       const response = await truckService.getTruckById(req);
 
     /* #swagger.responses[200] = {
-      description: "Login response",
+      description: "get by id",
         content: {
           "application/json": {
             schema:{
-              $ref: "#/components/schemas/loginSchema"
+              $ref: "#/components/schemas/truckRegistrationSchema"
             },
             example: {
               status: true,
               data: {
-                email: 'johndoe@sample.com',
-                fullname: 'John Doe',
-                phone: '08012345678'
-              },
+                capacity: "2500 tone",
+                  type: "ferrari",
+                  registrationPapers: [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      plateNumber: "12132432425",
+                      status: "Available",
+                      ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      driverId: null,
+                      createdAt: "2025-02-06T13:00:59.415Z",
+                      updatedAt: "2025-02-06T13:00:59.415Z"
+                    },
               message: "Successful message"
             }
-          }           
+          }
         }
       }
     */
@@ -282,20 +333,6 @@ const TruckController = {
       /*
         #swagger.tags= ['Users']
         #swagger.description = Get truck status report
-        #swagger.requestBody = {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/loginSchema"
-              },
-              example: {
-                email: 'johndoe@sample.com',
-                password: "password"
-              }
-            }
-          }
-        } 
       */
       const response = await truckService.getTruckStatusReport(req);
 
@@ -304,18 +341,19 @@ const TruckController = {
         content: {
           "application/json": {
             schema:{
-              $ref: "#/components/schemas/loginSchema"
+              $ref: "#/components/schemas/truckRegistrationSchema"
             },
             example: {
               status: true,
               data: {
-                email: 'johndoe@sample.com',
-                fullname: 'John Doe',
-                phone: '08012345678'
+                suspendedCount: 0,
+                availableCount: 2,
+                onTransitCount: 0,
+                underMaintenanceCount: 0
               },
               message: "Successful message"
             }
-          }           
+          }
         }
       }
     */
@@ -334,6 +372,21 @@ const TruckController = {
 
   getCompletedJobs: async (req: Request, res: Response): Promise<any> =>{
     try{
+      /*
+        #swagger.tags= ['Users']
+        #swagger.description = 'Get users trucks'
+        #swagger.parameters['status'] = {
+          in: 'query',
+          name: 'status',
+          description: 'Fetch completed trip by status',
+          required: false,
+          schema: {
+            type: 'string',
+            enum: ['Completed']
+          }
+        }
+      */
+
 
       /*
         #swagger.tags= ['Users']
@@ -375,6 +428,42 @@ const TruckController = {
             }
           }
         */
+
+        /* #swagger.responses[200] = {
+      description: "completed job",
+        content: {
+          "application/json": {
+            schema:{
+              $ref: "#/components/schemas/truckRegistrationSchema"
+            },
+            example: {
+              status: true,
+              data: [
+               {
+                capacity: "2500 tone",
+                  type: "ferrari",
+                  registrationPapers: [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      plateNumber: "12132432425",
+                      status: "Completed",
+                      ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      driverId: null,
+                      createdAt: "2025-02-06T13:00:59.415Z",
+                      updatedAt: "2025-02-06T13:00:59.415Z"
+                    }
+              ],
+              message: "Successful message"
+            }
+          }
+        }
+      }
+    */
 
       if(!response.status){
         return res.status(400).json(response);

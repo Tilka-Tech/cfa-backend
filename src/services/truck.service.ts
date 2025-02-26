@@ -77,7 +77,8 @@ const truckService = {
         createdById: id,
         status: "Available",
         ownerId: id, // Default to user ID if no owner is provided
-        registrationPapers
+        registrationPapers,
+        locationId: ""
       }
     });
     return { status: true, data: createdTruck };
@@ -254,14 +255,13 @@ const truckService = {
   getCompletedJobs: async (req: Request): Promise<any> =>{
 
     const {status} = req.query;
-    const completedJob = prismaClient.order.findMany(
+    const completedJob = await prismaClient.order.findMany(
       {
         where: {
           status: status  as OrderStatus
         }
       }
     )
-
     return {status: true, data: completedJob}
   }
 }

@@ -46,6 +46,17 @@ const doc = {
                 $otp: 'johno@sample.com',
                 $password: 'Password'
             },
+            truckRegistrationSchema:{
+                $licensePlate: "12132432425",
+                $truckCapacity: "2500 tone",
+                $truckType: "ferrari",
+                $registrationPapers: [
+                    {
+                        $url: "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png",
+                        $key: "zlhzrwg420rw9y464px7"
+                    }
+                ]
+            }
         },
     },
     tags: [
