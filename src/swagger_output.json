@@ -1180,6 +1180,28 @@
           }
         }
       }
+    },
+    "/order/": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1316,6 +1338,88 @@
           "truckCapacity",
           "truckType",
           "registrationPapers"
+        ]
+      },
+      "orderSchema": {
+        "type": "object",
+        "properties": {
+          "neededTruckType": {
+            "type": "string",
+            "example": "Flatbed"
+          },
+          "commodityToDeliver": {
+            "type": "string",
+            "example": "Cement"
+          },
+          "estimatedWeightOfDelivarables": {
+            "type": "string",
+            "example": "2000"
+          },
+          "numberOfDeleverable": {
+            "type": "string",
+            "example": "1000"
+          },
+          "pickUpHouseNumber": {
+            "type": "string",
+            "example": "12"
+          },
+          "pickupAddress": {
+            "type": "string",
+            "example": "Ojuelegba"
+          },
+          "pickUpCity": {
+            "type": "string",
+            "example": "Lagos"
+          },
+          "pickUpState": {
+            "type": "string",
+            "example": "Lagos"
+          },
+          "deliveryHouseNumber": {
+            "type": "string",
+            "example": "12"
+          },
+          "deliveryAddress": {
+            "type": "string",
+            "example": "Ojuelegba"
+          },
+          "deliveryCity": {
+            "type": "string",
+            "example": "Lagos"
+          },
+          "deliveableState": {
+            "type": "string",
+            "example": "Lagos"
+          },
+          "country": {
+            "type": "string",
+            "example": "Nigeria"
+          },
+          "recipientName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "recipientPhone": {
+            "type": "string",
+            "example": "08012345678"
+          }
+        },
+        "required": [
+          "neededTruckType",
+          "commodityToDeliver",
+          "estimatedWeightOfDelivarables",
+          "numberOfDeleverable",
+          "pickUpHouseNumber",
+          "pickupAddress",
+          "pickUpCity",
+          "pickUpState",
+          "deliveryHouseNumber",
+          "deliveryAddress",
+          "deliveryCity",
+          "deliveableState",
+          "country",
+          "recipientName",
+          "recipientPhone"
         ]
       }
     }

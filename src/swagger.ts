@@ -56,7 +56,24 @@ const doc = {
                         $key: "zlhzrwg420rw9y464px7"
                     }
                 ]
-            }
+            },
+            orderSchema:{
+                $neededTruckType: "Flatbed",
+                $commodityToDeliver: "Cement",
+                $estimatedWeightOfDelivarables: "2000",
+                $numberOfDeleverable: "1000",
+                $pickUpHouseNumber: "12",
+                $pickupAddress: "Ojuelegba",
+                $pickUpCity: "Lagos",
+                $pickUpState: "Lagos",
+                $deliveryHouseNumber: "12",
+                $deliveryAddress: "Ojuelegba",
+                $deliveryCity: "Lagos",
+                $deliveableState: "Lagos",
+                $country: "Nigeria",
+                $recipientName: "John Doe",
+                $recipientPhone: "08012345678"
+            },
         },
     },
     tags: [
