@@ -94,7 +94,7 @@ const AuthService = {
 
     await emailSender(userExist.email, otp, userExist.fullname, 'verify-email', 'Verify Token');
     
-    return { message: "Token sent has been sent to your email", status: true }
+    return { message: "Token has been sent to your email", status: true }
   },
 
   verifyToken: async (req: Request)=>{
@@ -141,7 +141,7 @@ const AuthService = {
     // update token to blacklisted
     await prismaClient.token.update({
       where: {id: token.id},
-      data: {isBlacklisted: false}
+      data: {isBlacklisted: true}
     })
 
     // update user password
@@ -157,7 +157,7 @@ const AuthService = {
     // send password reset email
     await emailSender(user.email, "", user.fullname, 'reset-password', 'Password Reset');
 
-    return { message: "token verified", status: true }
+    return { message: "password reset", status: true }
   },
 }
 

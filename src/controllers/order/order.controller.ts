@@ -8,7 +8,7 @@ const OrderController = {
 
             /*
             #swagger.tags = ['Users']
-            #swagger.description = 'Endpoint to create order',
+            #swagger.description = Endpoint to create order,
             #swagger.requestBody = {
                 required: true,
                 content: {
@@ -40,8 +40,8 @@ const OrderController = {
 
             const response = await orderService.createOrderService(req);
             /*
-            #swagger.tags = ['Orders']
-            #swagger.description = 'Endpoint to create order',
+            #swagger.tags = ['Users']
+            #swagger.description = Endpoint to create order,
              content: {
                 "application/json": {
                     schema: {
