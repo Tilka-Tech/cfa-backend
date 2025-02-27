@@ -104,18 +104,37 @@
         "description": "Register as truck owner.",
         "responses": {
           "200": {
-            "description": "Forgot response",
+            "description": "Register response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/verifyTokenSchema"
+                  "$ref": "#/components/schemas/registerSchema"
                 },
                 "example": {
                   "status": true,
-                  "message": "Successfull message"
+                  "data": {
+                    "id": "9f9a054b-1dd9-4193-9d99-4b90cbafcc53",
+                    "isVerified": false,
+                    "fullname": "John Doe",
+                    "email": "olanrewajuqudus5+2@gmail.com",
+                    "phone": "08012345678",
+                    "userType": "TruckOwner",
+                    "password": "$2b$12$kXqa/JjZZEVcMdJJEPaY.uJUDdvcTv2N8OQlVkgl/vZKLFdoxttPS",
+                    "roleId": null,
+                    "status": null,
+                    "createdAt": "2025-02-27T10:52:28.858",
+                    "updatedAt": "2025-02-27T10:52:28.858Z"
+                  },
+                  "message": "account created"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "requestBody": {
@@ -123,10 +142,13 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/verifyTokenSchema"
+                "$ref": "#/components/schemas/registerSchema"
               },
               "example": {
-                "otp": "johndoe@sample.com"
+                "email": "johndoe@sample.com",
+                "password": "password",
+                "fullname": "John Doe",
+                "phone": "08012345678"
               }
             }
           }
@@ -148,8 +170,8 @@
                   "$ref": "#/components/schemas/forgotPasswordSchema"
                 },
                 "example": {
-                  "status": true,
-                  "message": "Successfull message"
+                  "message": "Token has been sent to your email",
+                  "status": true
                 }
               }
             }
@@ -169,8 +191,7 @@
                 "$ref": "#/components/schemas/forgotPasswordSchema"
               },
               "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
+                "email": "johndoe@sample.com"
               }
             }
           }
@@ -193,7 +214,7 @@
                 },
                 "example": {
                   "status": true,
-                  "message": "Successfull message"
+                  "message": "token verified"
                 }
               }
             }
@@ -236,7 +257,7 @@
                 },
                 "example": {
                   "status": true,
-                  "message": "Successfull message"
+                  "message": "password reset"
                 }
               }
             }
@@ -256,7 +277,8 @@
                 "$ref": "#/components/schemas/verifyTokenSchema"
               },
               "example": {
-                "otp": "johndoe@sample.com"
+                "otp": "johndoe@sample.com",
+                "password": "password"
               }
             }
           }
@@ -291,7 +313,25 @@
                   "data": {
                     "totalTrucks": 8,
                     "onTransitTrucks": 1,
-                    "completedTrips": 0
+                    "completedTrips": 0,
+                    "completedJob": [
+                      {
+                        "id": "73823288-96e7-4d1e-8d68-a6eb4f862d26",
+                        "userId": "c03dafef-18bd-472a-9ef5-4f2eef1d30a8",
+                        "truckId": null,
+                        "pickupId": "1d72eeb4-b3be-42f2-9851-952f00e99c60",
+                        "deliveryId": "a0766d13-a58a-49e3-b5de-a17a6d6ff4d6",
+                        "neededTruckType": "hiab",
+                        "commodityToDeliver": "coacoa",
+                        "estimatedWeightOfDelivarables": "400kg",
+                        "numberOfDeleverable": "20",
+                        "recipientName": "Adam Lalana",
+                        "recipientPhone": "08098634548",
+                        "status": "Completed",
+                        "createdAt": "2025-02-21T02:57:51.342Z",
+                        "updatedAt": "2025-02-21T02:57:51.342Z"
+                      }
+                    ]
                   },
                   "message": "Successful message"
                 }
@@ -432,7 +472,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "create truck response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1465,23 +1505,86 @@
         "tags": [
           "Admin"
         ],
-        "description": "Get lists of all users",
+        "description": "Get List of trucks",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Fetch trucks by status",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "enum": {
+                  "type": "array",
+                  "example": [
+                    "Available",
+                    "In_Transit",
+                    "Under_Maintenance",
+                    "Removed"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "get all trucks",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/truckRegistrationSchema"
                 },
                 "example": {
                   "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
-                  "message": "Successful message"
+                  "data": [
+                    {
+                      "capacity": "2500 tone",
+                      "type": "ferrari",
+                      "registrationPapers": [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      "plateNumber": "12132432425",
+                      "status": "Available",
+                      "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      "driverId": null,
+                      "createdAt": "2025-02-06T13:00:59.415Z",
+                      "updatedAt": "2025-02-06T13:00:59.415Z"
+                    },
+                    {
+                      "capacity": "2500 tone",
+                      "type": "ferrari",
+                      "registrationPapers": [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      "plateNumber": "12132432425",
+                      "status": "Available",
+                      "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      "driverId": null,
+                      "createdAt": "2025-02-06T13:00:59.415Z",
+                      "updatedAt": "2025-02-06T13:00:59.415Z"
+                    }
+                  ],
+                  "message": "Successful message",
+                  "count": 0
                 }
               }
             }
@@ -1491,20 +1594,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
           }
         }
       }

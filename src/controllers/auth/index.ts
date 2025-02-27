@@ -62,7 +62,7 @@ const AuthController = {
     try{
       /*
         #swagger.tags= ['Auth']
-        #swagger.description = 'Register as truck owner.
+        #swagger.description = Register as truck owner.
         #swagger.requestBody = {
           required: true,
           content: {
@@ -72,9 +72,9 @@ const AuthController = {
               },
               example: {
                 email: 'johndoe@sample.com',
-                password: "password",
-                fullname: "John Doe",
-                phone: "08012345678"
+                password: 'password',
+                fullname: 'John Doe',
+                phone: '08012345678'
               }
             }
           }
@@ -92,11 +92,19 @@ const AuthController = {
             example: {
               status: true,
               data: {
-                email: 'johndoe@sample.com',
+                id: '9f9a054b-1dd9-4193-9d99-4b90cbafcc53',
+                isVerified: false,
                 fullname: 'John Doe',
-                phone: '08012345678'
+                email: 'olanrewajuqudus5+2@gmail.com',
+                phone: "08012345678",
+                userType: 'TruckOwner',
+                password: '$2b$12$kXqa/JjZZEVcMdJJEPaY.uJUDdvcTv2N8OQlVkgl/vZKLFdoxttPS',
+                roleId: null,
+                status: null,
+                createdAt: '2025-02-27T10:52:28.858',
+                updatedAt: '2025-02-27T10:52:28.858Z'
               },
-              message: "Successful message"
+              message: 'account created'
             }
           }           
         }
@@ -129,8 +137,7 @@ const AuthController = {
                 $ref: "#/components/schemas/forgotPasswordSchema"
               },
               example: {
-                email: 'johndoe@sample.com',
-                password: "password"
+                email: 'johndoe@sample.com'
               }
             }
           }
@@ -146,8 +153,8 @@ const AuthController = {
               $ref: "#/components/schemas/forgotPasswordSchema"
             },
             example: {
-              status: true,
-              message: "Successfull message"
+              message: "Token has been sent to your email",
+              status: true
             }
           }           
         }
@@ -195,7 +202,7 @@ const AuthController = {
             },
             example: {
               status: true,
-              message: "Successfull message"
+              message: "token verified"
             }
           }           
         }
@@ -226,7 +233,8 @@ const AuthController = {
                 $ref: "#/components/schemas/verifyTokenSchema"
               },
               example: {
-                otp: 'johndoe@sample.com'
+                otp: 'johndoe@sample.com',
+                password: "password"
               }
             }
           }
@@ -243,7 +251,7 @@ const AuthController = {
             },
             example: {
               status: true,
-              message: "Successfull message"
+              message: "password reset"
             }
           }           
         }
