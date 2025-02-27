@@ -117,7 +117,7 @@ const TruckController = {
       const response = await truckService.createTruck(req);
 
     /* #swagger.responses[200] = {
-      description: "Login response",
+      description: "create truck response",
         content: {
           "application/json": {
             schema:{
