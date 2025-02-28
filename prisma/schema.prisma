@@ -10,7 +10,7 @@ datasource db {
 
 model User {
   id           String        @id @default(uuid())
-  isVerified   Boolean       @default(false)
+  isVerified   Boolean       @default(true)
   fullname     String
   email        String        @unique
   phone        String
