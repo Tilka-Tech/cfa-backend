@@ -173,7 +173,6 @@ enum UserType {
 enum TruckStatus {
   In_Transit
   Under_Maintenance
-  Available
   Unverified
   Active
   In_Active
