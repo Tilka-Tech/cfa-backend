@@ -379,10 +379,10 @@
                 "enum": {
                   "type": "array",
                   "example": [
-                    "Available",
+                    "Acive",
                     "In_Transit",
                     "Under_Maintenance",
-                    "Removed"
+                    "In_Active"
                   ],
                   "items": {
                     "type": "string"
@@ -414,7 +414,7 @@
                       ],
                       "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
                       "plateNumber": "12132432425",
-                      "status": "Available",
+                      "status": "Active",
                       "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
                       "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
                       "driverId": null,
@@ -432,7 +432,7 @@
                       ],
                       "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
                       "plateNumber": "12132432425",
-                      "status": "Available",
+                      "status": "Active",
                       "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
                       "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
                       "driverId": null,
@@ -491,7 +491,7 @@
                     ],
                     "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
                     "plateNumber": "12132432425",
-                    "status": "Available",
+                    "status": "Unverified",
                     "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
                     "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
                     "driverId": null,
@@ -619,20 +619,6 @@
           "500": {
             "description": "Internal Server Error"
           }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
-          }
         }
       }
     },
@@ -680,7 +666,7 @@
                     ],
                     "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
                     "plateNumber": "12132432425",
-                    "status": "Available",
+                    "status": "Active",
                     "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
                     "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
                     "driverId": null,
@@ -816,7 +802,7 @@
                     ],
                     "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
                     "plateNumber": "12132432425",
-                    "status": "Available",
+                    "status": "Active",
                     "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
                     "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
                     "driverId": null,
@@ -857,7 +843,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "Truck report response",
             "content": {
               "application/json": {
                 "schema": {
@@ -939,18 +925,27 @@
         "description": "Create new user.",
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "Update status response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/updateStatusSchema"
                 },
                 "example": {
                   "status": true,
                   "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
+                    "id": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                    "isVerified": true,
+                    "fullname": "Jane Doe",
+                    "email": "sample@gmail.com",
+                    "phone": "08012345678",
+                    "userType": "TruckOwner",
+                    "password": "$2b$12$db8F0QLwnWjGSeA2RpR8Ee/5M0Ff3i5a/ABp38TuwrlyEHTchzIR.",
+                    "roleId": null,
+                    "status": "Suspended",
+                    "driverStatus": "Online",
+                    "createdAt": "2025-03-01T15:32:10.929Z",
+                    "updatedAt": "2025-03-01T17:12:58.113Z"
                   },
                   "message": "Successful message"
                 }
@@ -963,11 +958,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/loginSchema"
+                "$ref": "#/components/schemas/updateStatusSchema"
               },
               "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
+                "status": "Active"
               }
             }
           }
@@ -978,9 +972,37 @@
           "Admin"
         ],
         "description": "Get lists of all users",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Fetch trucks by status",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "enum": {
+                  "type": "array",
+                  "example": [
+                    "Active",
+                    "Pending",
+                    "Suspendend"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "all user response",
             "content": {
               "application/json": {
                 "schema": {
@@ -988,11 +1010,50 @@
                 },
                 "example": {
                   "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
+                  "data": [
+                    {
+                      "userType": "Admin",
+                      "createdAt": "2025-03-01T15:33:21.397Z",
+                      "email": "tilkadmin@yopmail.com",
+                      "fullname": "Tech Admin",
+                      "isVerified": true,
+                      "phone": "08012345678",
+                      "role": null,
+                      "status": "Active",
+                      "createBy": []
+                    },
+                    {
+                      "userType": "TruckOwner",
+                      "createdAt": "2025-03-01T15:32:10.929Z",
+                      "email": "olanrewajuqudus5+1@gmail.com",
+                      "fullname": "Jane Doe",
+                      "isVerified": true,
+                      "phone": "08012345678",
+                      "role": null,
+                      "status": "Active",
+                      "createBy": [
+                        {
+                          "capacity": "2500 tone",
+                          "type": "bugati",
+                          "registrationPapers": [
+                            {
+                              "key": "zlhzrwg420rw9y464px7",
+                              "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                            }
+                          ],
+                          "id": "e03171ee-c958-422b-b476-8af181965f3e",
+                          "plateNumber": "12132432424",
+                          "status": "In_Active",
+                          "ownerId": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                          "createdById": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                          "driverId": null,
+                          "locationId": null,
+                          "createdAt": "2025-03-01T19:08:37.952Z",
+                          "updatedAt": "2025-03-01T19:24:36.544Z"
+                        }
+                      ]
+                    }
+                  ],
                   "message": "Successful message"
                 }
               }
@@ -1003,20 +1064,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
           }
         }
       }
@@ -1039,7 +1086,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "get a user by id response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1048,9 +1095,60 @@
                 "example": {
                   "status": true,
                   "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
+                    "userType": "TruckOwner",
+                    "createdAt": "2025-03-01T15:32:10.929Z",
+                    "email": "olanrewajuqudus5+1@gmail.com",
+                    "fullname": "Jane Doe",
+                    "isVerified": true,
+                    "phone": "08012345678",
+                    "role": null,
+                    "status": "Active",
+                    "createBy": [
+                      {
+                        "capacity": "2500 tone",
+                        "type": "bugati",
+                        "registrationPapers": [
+                          {
+                            "key": "zlhzrwg420rw9y464px7",
+                            "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                          }
+                        ],
+                        "id": "e03171ee-c958-422b-b476-8af181965f3e",
+                        "plateNumber": "12132432424",
+                        "status": "In_Active",
+                        "ownerId": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                        "createdById": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                        "driverId": null,
+                        "locationId": null,
+                        "createdAt": "2025-03-01T19:08:37.952Z",
+                        "updatedAt": "2025-03-01T19:24:36.544Z"
+                      }
+                    ],
+                    "transaction": [],
+                    "order": [],
+                    "addresses": [],
+                    "roleId": null,
+                    "truck": [
+                      {
+                        "capacity": "2500 tone",
+                        "type": "bugati",
+                        "registrationPapers": [
+                          {
+                            "key": "zlhzrwg420rw9y464px7",
+                            "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                          }
+                        ],
+                        "id": "e03171ee-c958-422b-b476-8af181965f3e",
+                        "plateNumber": "12132432424",
+                        "status": "In_Active",
+                        "ownerId": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                        "createdById": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                        "driverId": null,
+                        "locationId": null,
+                        "createdAt": "2025-03-01T19:08:37.952Z",
+                        "updatedAt": "2025-03-01T19:24:36.544Z"
+                      }
+                    ]
                   },
                   "message": "Successful message"
                 }
@@ -1062,20 +1160,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
           }
         }
       }
@@ -1229,6 +1313,73 @@
               "example": {
                 "email": "johndoe@sample.com",
                 "password": "password"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/user/update-user-status/{userId}": {
+      "patch": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Update user statua.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update status response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateStatusSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "id": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                    "isVerified": true,
+                    "fullname": "Jane Doe",
+                    "email": "sample@gmail.com",
+                    "phone": "08012345678",
+                    "userType": "TruckOwner",
+                    "password": "$2b$12$db8F0QLwnWjGSeA2RpR8Ee/5M0Ff3i5a/ABp38TuwrlyEHTchzIR.",
+                    "roleId": null,
+                    "status": "Suspended",
+                    "driverStatus": "Online",
+                    "createdAt": "2025-03-01T15:32:10.929Z",
+                    "updatedAt": "2025-03-01T17:12:58.113Z"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateStatusSchema"
+              },
+              "example": {
+                "status": "Active"
               }
             }
           }
@@ -1390,15 +1541,15 @@
         }
       }
     },
-    "/admin/truck/{id}": {
+    "/admin/truck/update-truck-status/{truckId}": {
       "put": {
         "tags": [
           "Admin"
         ],
-        "description": "Create new user.",
+        "description": "Update truck status",
         "parameters": [
           {
-            "name": "id",
+            "name": "truckId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1408,69 +1559,32 @@
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "Update status response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/updateStatusSchema"
                 },
                 "example": {
                   "status": true,
                   "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
-                  "message": "Successful message"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Admin"
-        ],
-        "description": "get single role by id.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Login response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
-                },
-                "example": {
-                  "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
+                    "capacity": "2500 tone",
+                    "type": "bugati",
+                    "registrationPapers": [
+                      {
+                        "key": "zlhzrwg420rw9y464px7",
+                        "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                      }
+                    ],
+                    "id": "e03171ee-c958-422b-b476-8af181965f3e",
+                    "plateNumber": "12132432424",
+                    "status": "Unverified",
+                    "ownerId": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                    "createdById": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                    "driverId": null,
+                    "locationId": null,
+                    "createdAt": "2025-03-01T19:08:37.952Z",
+                    "updatedAt": "2025-03-01T19:08:37.952Z"
                   },
                   "message": "Successful message"
                 }
@@ -1489,11 +1603,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/loginSchema"
+                "$ref": "#/components/schemas/updateStatusSchema"
               },
               "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
+                "status": "Active"
               }
             }
           }
@@ -1522,10 +1635,11 @@
                 "enum": {
                   "type": "array",
                   "example": [
-                    "Available",
+                    "Active",
                     "In_Transit",
                     "Under_Maintenance",
-                    "Removed"
+                    "In_Active",
+                    "Unverified"
                   ],
                   "items": {
                     "type": "string"
@@ -1585,6 +1699,64 @@
                   ],
                   "message": "Successful message",
                   "count": 0
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/admin/truck/{truckId}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "get single truck by id",
+        "parameters": [
+          {
+            "name": "truckId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "single truck response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/truckRegistrationSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "capacity": "2500 tone",
+                    "type": "ferrari",
+                    "registrationPapers": [
+                      {
+                        "key": "zlhzrwg420rw9y464px7",
+                        "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                      }
+                    ],
+                    "id": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                    "plateNumber": "12132432425",
+                    "status": "Available",
+                    "ownerId": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                    "createdById": "c48929ba-212e-4aff-8624-ef694ef4216d",
+                    "driverId": null,
+                    "createdAt": "2025-02-06T13:00:59.415Z",
+                    "updatedAt": "2025-02-06T13:00:59.415Z"
+                  },
+                  "message": "Successful message"
                 }
               }
             }
@@ -1837,6 +2009,18 @@
           "country",
           "recipientName",
           "recipientPhone"
+        ]
+      },
+      "updateStatusSchema": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "Active"
+          }
+        },
+        "required": [
+          "status"
         ]
       }
     }

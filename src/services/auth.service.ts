@@ -20,7 +20,6 @@ const AuthService = {
     const foundUser = await prismaClient.user.findUnique({
         where: { email }
     });
-    console.log(foundUser)
     if(!foundUser){
       return {message: "invalid email or password", status: false}
     }
@@ -32,6 +31,21 @@ const AuthService = {
         };
         
       }
+
+      if ( foundUser.status === "Pending") {
+        return {
+          message: "account pending approval",
+          status: false,
+        };
+      }
+
+      if (foundUser.status === "Suspended") {
+        return {
+          message: "account suspended",
+          status: false,
+        };
+      }
+
     const isPasswordMatch = await bcrypt.compare(password, foundUser.password);
 
     if(!isPasswordMatch)return {message: "invalid email or password", status: false};

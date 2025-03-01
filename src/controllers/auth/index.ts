@@ -115,8 +115,6 @@ const AuthController = {
       }
       res.json(response)
     }catch(err: any){
-      // console.log("messahsagahhahhahh",err.message);
-      console.log(err);
       res.status(500).json({
         message: `Internal Server Error`,
         status: false,

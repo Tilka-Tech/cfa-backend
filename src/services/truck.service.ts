@@ -85,7 +85,6 @@ const truckService = {
         capacity: truckCapacity,
         type: truckType,
         createdById: id,
-        status: "Available",
         ownerId: id, // Default to user ID if no owner is provided
         registrationPapers,
         locationId: null
@@ -244,10 +243,10 @@ const truckService = {
   
     truckStatusCounts.forEach(({ status, _count }) => {
       switch (status) {
-        case "Removed":
+        case "In_Active":
           report.suspendedCount = _count.status;
           break;
-        case "Available":
+        case "Active":
           report.availableCount = _count.status;
           break;
         case "In_Transit":

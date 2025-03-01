@@ -47,11 +47,11 @@ const AdminService = {
   },
 
   getUsers: async (req: Request)=>{
-    const {userType="User", status = "Active"} = req.query
+    const {userType="User", status} = req.query
     const where: Prisma.UserWhereInput = {}
-    if(userType && (userType === "User" || userType === "Admin" || userType === "Driver" || userType === "TruckOwner")){
-      where.userType = userType
-    }
+    // if(userType && (userType === "User" || userType === "Admin" || userType === "Driver" || userType === "TruckOwner")){
+    //   where.userType = userType
+    // }
 
     if(status && (status === "Suspended" || status === "Pending" || status === "Active")){
       where.status = status
@@ -214,6 +214,38 @@ const AdminService = {
       data
      }
   },
+
+  updateUserStatus: async (req: Request)=>{
+    const {userId} = req.params
+    const {status} = req.body
+    const foundUser = await prisma.user.findUnique({
+      where: {id: userId}})
+    if(!foundUser){
+      return {status: false, message: "User not found"}
+    }
+
+    if(status !== "Active" && status !== "Suspended" && status !== "Pending"){
+      return {status: false, message: "Invalid status"}
+    }
+
+    if(foundUser.status === status){
+      return {status: false, message: `User status is already ${status}`}
+    }
+
+    // update user status
+    const data = await prisma.user.update({
+      where: {id: userId},
+      data: {
+        status
+      }
+    })
+
+    return {
+      message: "User status updated",
+      status: true,
+      data
+     }
+  }
 }
 
 export default AdminService
