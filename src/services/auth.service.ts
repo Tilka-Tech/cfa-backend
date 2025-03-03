@@ -50,9 +50,12 @@ const AuthService = {
 
     if(!isPasswordMatch)return {message: "invalid email or password", status: false};
 
+    // Remove password before returning user data
+    const { password: _, ...userWithoutPassword } = foundUser;
+
     const token = jwt.sign({ sub: foundUser }, privateKey, { algorithm: 'RS256', expiresIn: '1h'   });
 
-    return {message: "Login Successful", status: true, data: {user: foundUser, token}}
+    return {message: "Login Successful", status: true, data: {user: userWithoutPassword, token}}
   },
   
   postCreateUser: async (req: Request)=>{
@@ -79,8 +82,10 @@ const AuthService = {
     // send a welcome mail
 
     await emailSender(user.email, "", user.fullname, 'welcome', 'Welcome');
+
+    const {password: _, ...userWithoutPassword} = user
     
-    return { message: "account created", status: true, data: user }
+    return { message: "account created", status: true, data: userWithoutPassword }
   },
   
   forgotPassword: async (req: Request)=>{

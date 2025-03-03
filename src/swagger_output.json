@@ -116,10 +116,9 @@
                     "id": "9f9a054b-1dd9-4193-9d99-4b90cbafcc53",
                     "isVerified": false,
                     "fullname": "John Doe",
-                    "email": "olanrewajuqudus5+2@gmail.com",
+                    "email": "sample@gmail.com",
                     "phone": "08012345678",
                     "userType": "TruckOwner",
-                    "password": "$2b$12$kXqa/JjZZEVcMdJJEPaY.uJUDdvcTv2N8OQlVkgl/vZKLFdoxttPS",
                     "roleId": null,
                     "status": null,
                     "createdAt": "2025-02-27T10:52:28.858",
@@ -940,7 +939,6 @@
                     "email": "sample@gmail.com",
                     "phone": "08012345678",
                     "userType": "TruckOwner",
-                    "password": "$2b$12$db8F0QLwnWjGSeA2RpR8Ee/5M0Ff3i5a/ABp38TuwrlyEHTchzIR.",
                     "roleId": null,
                     "status": "Suspended",
                     "driverStatus": "Online",
@@ -998,6 +996,33 @@
                 }
               }
             }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Fuzzy search for users by full name or email",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "pagination",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pagination",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
           }
         ],
         "responses": {
@@ -1014,7 +1039,7 @@
                     {
                       "userType": "Admin",
                       "createdAt": "2025-03-01T15:33:21.397Z",
-                      "email": "tilkadmin@yopmail.com",
+                      "email": "sample@yopmail.com",
                       "fullname": "Tech Admin",
                       "isVerified": true,
                       "phone": "08012345678",
@@ -1025,7 +1050,7 @@
                     {
                       "userType": "TruckOwner",
                       "createdAt": "2025-03-01T15:32:10.929Z",
-                      "email": "olanrewajuqudus5+1@gmail.com",
+                      "email": "sample@gmail.com",
                       "fullname": "Jane Doe",
                       "isVerified": true,
                       "phone": "08012345678",
@@ -1097,7 +1122,7 @@
                   "data": {
                     "userType": "TruckOwner",
                     "createdAt": "2025-03-01T15:32:10.929Z",
-                    "email": "olanrewajuqudus5+1@gmail.com",
+                    "email": "sample@gmail.com",
                     "fullname": "Jane Doe",
                     "isVerified": true,
                     "phone": "08012345678",
@@ -1352,7 +1377,6 @@
                     "email": "sample@gmail.com",
                     "phone": "08012345678",
                     "userType": "TruckOwner",
-                    "password": "$2b$12$db8F0QLwnWjGSeA2RpR8Ee/5M0Ff3i5a/ABp38TuwrlyEHTchzIR.",
                     "roleId": null,
                     "status": "Suspended",
                     "driverStatus": "Online",
@@ -1646,6 +1670,33 @@
                   }
                 }
               }
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Fuzzy search for trucks by truck type or plate number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "pagination",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pagination",
+            "required": false,
+            "schema": {
+              "type": "number"
             }
           }
         ],

@@ -5,16 +5,33 @@ import { Prisma, TruckStatus } from "@prisma/client";
 const TruckService = {
  
   getTrucks: async (req: Request)=>{
-    const {status} = req.query
+    const { status, search, pageNumber, pageSize } = req.query;
     const where: Prisma.TruckWhereInput = {}
 
     // Validate and set `status`
     if (status && Object.values(TruckStatus).includes(status as TruckStatus)) {
       where.status = status as TruckStatus;
   }
+
+   // Add fuzzy search for `name` or `model`
+   if (search) {
+    where.OR = [
+      { type: { contains: search as string, mode: "insensitive" } },
+      { plateNumber: { contains: search as string, mode: "insensitive" } }
+    ];
+  }
+
+  let take, skip
+  if(pageNumber && pageSize){
+    skip = (Number(pageNumber) - 1) * Number(pageSize)
+    take = Number(pageSize)
+  }
+
     // get all trucks with or without status
     const data = await prisma.truck.findMany({
-      where
+      where,
+      take,
+      skip
     })
 
     const count = await prisma.truck.count({ where });

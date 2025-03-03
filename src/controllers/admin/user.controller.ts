@@ -18,6 +18,33 @@ const UserController = {
             enum: ['Active', 'Pending', 'Suspendend']
           }
         }
+         #swagger.parameters['search'] = {
+          in: 'query',
+          name: 'search',
+          description: 'Fuzzy search for users by full name or email',
+          required: false,
+          schema: {
+            type: 'string'
+          }
+        }
+        #swagger.parameters['pageNumber'] = {
+          in: 'query',
+          name: 'pageNumber',
+          description: 'pagination',
+          required: false,
+          schema: {
+            type: 'number'
+          }
+        }
+        #swagger.parameters['pageSize'] = {
+          in: 'query',
+          name: 'pageSize',
+          description: 'pagination',
+          required: false,
+          schema: {
+            type: 'number'
+          }
+        }
       */
       const response = await AdminService.getUsers(req);
 
@@ -33,7 +60,7 @@ const UserController = {
               data: [{
                 "userType": "Admin",
                 "createdAt": "2025-03-01T15:33:21.397Z",
-                "email": "tilkadmin@yopmail.com",
+                "email": "sample@yopmail.com",
                 "fullname": "Tech Admin",
                 "isVerified": true,
                 "phone": "08012345678",
@@ -44,7 +71,7 @@ const UserController = {
             {
                 "userType": "TruckOwner",
                 "createdAt": "2025-03-01T15:32:10.929Z",
-                "email": "olanrewajuqudus5+1@gmail.com",
+                "email": "sample@gmail.com",
                 "fullname": "Jane Doe",
                 "isVerified": true,
                 "phone": "08012345678",
@@ -109,7 +136,7 @@ const UserController = {
               data:  {
                 "userType": "TruckOwner",
                 "createdAt": "2025-03-01T15:32:10.929Z",
-                "email": "olanrewajuqudus5+1@gmail.com",
+                "email": "sample@gmail.com",
                 "fullname": "Jane Doe",
                 "isVerified": true,
                 "phone": "08012345678",
@@ -434,7 +461,6 @@ const UserController = {
                 "email": "sample@gmail.com",
                 "phone": "08012345678",
                 "userType": "TruckOwner",
-                "password": "$2b$12$db8F0QLwnWjGSeA2RpR8Ee/5M0Ff3i5a/ABp38TuwrlyEHTchzIR.",
                 "roleId": null,
                 "status": "Suspended",
                 "driverStatus": "Online",

@@ -47,7 +47,7 @@ const AdminService = {
   },
 
   getUsers: async (req: Request)=>{
-    const {userType="User", status} = req.query
+    const {userType="User", status, search, pageNumber, pageSize} = req.query
     const where: Prisma.UserWhereInput = {}
     // if(userType && (userType === "User" || userType === "Admin" || userType === "Driver" || userType === "TruckOwner")){
     //   where.userType = userType
@@ -56,9 +56,26 @@ const AdminService = {
     if(status && (status === "Suspended" || status === "Pending" || status === "Active")){
       where.status = status
     }
+
+        // Add fuzzy search for `fullname` or `email`
+    if (search) {
+      where.OR = [
+        { fullname: { contains: search as string, mode: "insensitive" } },
+        { email: { contains: search as string, mode: "insensitive" } }
+      ];
+    }
+
+    let skip, take
+    if(pageNumber && pageSize){
+      skip = (Number(pageNumber) - 1) * Number(pageSize);
+      take = Number(pageSize);
+    }
+
     // get all users
     const data = await prisma.user.findMany({
       where,
+      skip,
+      take,
       select: {
         userType: true,
         createdAt: true,
@@ -233,13 +250,13 @@ const AdminService = {
     }
 
     // update user status
-    const data = await prisma.user.update({
+    const updatedData = await prisma.user.update({
       where: {id: userId},
       data: {
         status
       }
     })
-
+const {password: _, ...data} = updatedData
     return {
       message: "User status updated",
       status: true,

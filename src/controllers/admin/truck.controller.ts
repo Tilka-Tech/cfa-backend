@@ -18,6 +18,33 @@ const TruckController = {
             enum: ['Active', 'In_Transit', 'Under_Maintenance', 'In_Active', 'Unverified']
           }
         }
+           #swagger.parameters['search'] = {
+          in: 'query',
+          name: 'search',
+          description: 'Fuzzy search for trucks by truck type or plate number',
+          required: false,
+          schema: {
+            type: 'string'
+          }
+        }
+        #swagger.parameters['pageNumber'] = {
+          in: 'query',
+          name: 'pageNumber',
+          description: 'pagination',
+          required: false,
+          schema: {
+            type: 'number'
+          }
+        }
+        #swagger.parameters['pageSize'] = {
+          in: 'query',
+          name: 'pageSize',
+          description: 'pagination',
+          required: false,
+          schema: {
+            type: 'number'
+          }
+        }
       */
       const response = await TruckService.getTrucks(req);
 
