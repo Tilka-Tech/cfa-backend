@@ -9,26 +9,27 @@ datasource db {
 }
 
 model User {
-  id          String        @id @default(uuid())
-  isVerified  Boolean       @default(false)
-  fullname    String
-  email       String        @unique
-  phone       String
-  userType    UserType
-  password    String
+  id           String        @id @default(uuid())
+  isVerified   Boolean       @default(true)
+  fullname     String
+  email        String        @unique
+  phone        String
+  userType     UserType
+  password     String
   // userImage   Json
-  roleId      String?
-  role        Role?         @relation(fields: [roleId], references: [id])
-  truck       Truck[]       @relation(name: "owner")
-  createBy    Truck[]       @relation(name: "created")
-  truckDriver Truck?        @relation(name: "driver")
-  addresses   UserAddress[]
-  order       Order[]
-  token       Token[]
-  status      UserStatus?
-  transaction Transaction[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime?     @updatedAt
+  roleId       String?
+  role         Role?         @relation(fields: [roleId], references: [id])
+  truck        Truck[]       @relation(name: "owner")
+  createBy     Truck[]       @relation(name: "created")
+  truckDriver  Truck?        @relation(name: "driver")
+  addresses    UserAddress[]
+  order        Order[]
+  token        Token[]
+  status       UserStatus    @default(Pending)
+  transaction  Transaction[]
+  driverStatus DriverStatus? // @default(Online)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime?     @updatedAt
 }
 
 model Token {
@@ -61,7 +62,7 @@ model Truck {
 
   id              String       @id @default(uuid())
   plateNumber     String       @unique
-  status          TruckStatus
+  status          TruckStatus  @default(Unverified)
   ownerId         String
   owner           User         @relation(fields: [ownerId], references: [id], name: "owner")
   createdById     String
@@ -172,14 +173,21 @@ enum UserType {
 enum TruckStatus {
   In_Transit
   Under_Maintenance
-  Available
-  Removed
+  Unverified
+  Active
+  In_Active
 }
 
 enum OrderStatus {
   Pending
   Completed
   In_Progress
+}
+
+enum DriverStatus {
+  Online
+  Offline
+  Busy
 }
 
 enum UserStatus {

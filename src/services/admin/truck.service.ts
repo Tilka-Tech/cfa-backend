@@ -1,219 +1,103 @@
 import { Request } from "express"
 import prisma from "../../../prisma/prisma";
-import bcrypt from "bcrypt";
-import { Prisma } from "@prisma/client";
+import { Prisma, TruckStatus } from "@prisma/client";
 
 const TruckService = {
-  getDashboardAnalytics: async (req: Request)=>{
+ 
+  getTrucks: async (req: Request)=>{
+    const { status, search, pageNumber, pageSize } = req.query;
+    const where: Prisma.TruckWhereInput = {}
 
-    // get analytics data
-    const truck = await prisma.truck.count({
-      where: {status: "In_Transit"}
-    })
+    // Validate and set `status`
+    if (status && Object.values(TruckStatus).includes(status as TruckStatus)) {
+      where.status = status as TruckStatus;
+  }
 
-    const completed = await prisma.order.count({
-      where: {status: "Completed"}
-    })
+   // Add fuzzy search for `name` or `model`
+   if (search) {
+    where.OR = [
+      { type: { contains: search as string, mode: "insensitive" } },
+      { plateNumber: { contains: search as string, mode: "insensitive" } }
+    ];
+  }
 
-    const pendingRequest = await prisma.order.count({
-      where: {status: "Pending"}
-    })
+  let take, skip
+  if(pageNumber && pageSize){
+    skip = (Number(pageNumber) - 1) * Number(pageSize)
+    take = Number(pageSize)
+  }
 
-    const pendingVerification = await prisma.user.count({
-      where: {status: "Pending"}
-    })
-
-    const recentTransactions = await prisma.transaction.findMany({
-      where: {},
-      take: 10,
-      orderBy: {createdAt: "asc"}
-    })
-
-
-    return {
-      message: "Analytics retrieved",
-      status: true,
-      data: {
-        overview: {
-          truckInTransit: truck,
-          completed,
-          pendingRequest,
-          pendingVerification
-        },
-        totalRevenue: {},
-        recentTransactions
-      }
-     }
-  },
-
-  getUsers: async (req: Request)=>{
-    const {userType="User", status = "Active"} = req.query
-    const where: Prisma.UserWhereInput = {}
-    if(userType && (userType === "User" || userType === "Admin" || userType === "Driver" || userType === "TruckOwner")){
-      where.userType = userType
-    }
-
-    if(status && (status === "Suspended" || status === "Pending" || status === "Active")){
-      where.status = status
-    }
-    // get all users
-    const data = await prisma.user.findMany({
+    // get all trucks with or without status
+    const data = await prisma.truck.findMany({
       where,
-      select: {
-        userType: true,
-        createdAt: true,
-        email: true,
-        fullname: true,
-        isVerified: true,
-        phone: true,
-        role: true,
-        status: true,
-        createBy: true
-      }
+      take,
+      skip
     })
 
-    const count = await prisma.user.count({
-      where
-    })
+    const count = await prisma.truck.count({ where });
 
 
     return {
-      message: "Users retrieved",
+      message: "Trucks retrieved",
       status: true,
       data,
       count
      }
   },
 
-  getOneUser: async (req: Request)=>{
-    const userId = req.params.id
-    // get one user
-    const data = await prisma.user.findUnique({
-      where: {id: userId},
-      select: {
-        userType: true,
-        createdAt: true,
-        email: true,
-        fullname: true,
-        isVerified: true,
-        phone: true,
-        role: true,
-        status: true,
-        createBy: true,
-        transaction: true,
-        order: true,
-        addresses: true,
-        roleId: true,
-        truck: true
-      }
+  getOneTruck: async (req: Request)=>{
+    const {truckId} = req.params
+    // get one truck
+    const data = await prisma.truck.findUnique({
+      where: {id: truckId}
     })
 
     return {
-      message: "User retrieved",
+      message: "Truck retrieved",
       status: true,
       data
      }
   },
-
-  createUser: async (req: Request)=>{
-    const {userType, roleId, email, phone, fullname, password} = req.body
-
-    // check if email already exist
-    const emailExist = await prisma.user.findUnique({
-      where: {email}
-    })
-    if(emailExist){
-      return {status: false, message: "User with email already exist"}
+  updateTruckStatus: async (req: Request)=>{
+    const {truckId} = req.params
+    const {status} = req.body
+    const foundTruck = await prisma.truck.findUnique({
+      where: {id: truckId}})
+    if(!foundTruck){
+      return {status: false, message: "Truck not found"}
     }
 
-    // check if role exist for Admin Usertype
-    if(userType === "Admin"){
-      if(!roleId){
-        return {status: false, message: "roleId must be passed to create admin user"}
-      }
-      const role = await prisma.role.findUnique({
-        where: {id: roleId}
-      })
-      if(!role){
-        return {status: false, message: "role does not exist"}
-      }
+    if (status === TruckStatus.Unverified) {
+      return { status: false, message: "Transition to 'Unverified' is not allowed" };
     }
-      const salt = await bcrypt.genSalt(12);
-      const hashPassword = await bcrypt.hash(password, salt)
 
-    // create new user
-    const data = await prisma.user.create({
+    if (![ "In_Transit",
+      "Under_Maintenance",
+      "Active",
+      "In_Active"].includes(status)) {
+      return { status: false, message: "Invalid status" };
+    }
+
+    if(foundTruck.status === status){
+      return {status: false, message: `Truck status is already ${status}`}
+    }
+
+    // if truck status is in transit you cannot transition to under maintenance or In_active
+
+    // update truck status
+    const data = await prisma.truck.update({
+      where: {id: truckId},
       data: {
-        userType,
-        email,
-        fullname,
-        phone,
-        ...(userType === "Admin" && {role: roleId}),
-        status: "Active",
-        createBy: req.user.id,
-        password: hashPassword,
-      }
-    })
-
-    // send email to user
-
-    return {
-      message: "Users created successfuly",
-      status: true,
-      data,
-     }
-  },
-
-  getRoles: async (req: Request)=>{
-
-    // get all roles
-    const data = await prisma.role.findMany({
-      include: {permissions: true}
-    })
-
-    const count = await prisma.role.count()
-
-    return {
-      message: "Roles retrieved",
-      status: true,
-      data,
-      count
-     }
-  },
-
-  getOneRole: async (req: Request)=>{
-    const roleId = req.params.id
-    // get one role
-    const data = await prisma.role.findUnique({
-      where: {id: roleId},
-      include: {
-        permissions: true,
-        users: true
+        status
       }
     })
 
     return {
-      message: "Role retrieved",
+      message: "Truck status updated",
       status: true,
       data
      }
-  },
-
-  createRole: async (req: Request)=>{
-    const {name} = req.body
-    // create one role
-    const data = await prisma.role.create({
-      data: {
-        name,
-      }
-    })
-
-    return {
-      message: "Role created",
-      status: true,
-      data
-     }
-  },
+  }
 }
 
 export default TruckService

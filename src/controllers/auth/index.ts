@@ -95,10 +95,9 @@ const AuthController = {
                 id: '9f9a054b-1dd9-4193-9d99-4b90cbafcc53',
                 isVerified: false,
                 fullname: 'John Doe',
-                email: 'olanrewajuqudus5+2@gmail.com',
+                email: 'sample@gmail.com',
                 phone: "08012345678",
                 userType: 'TruckOwner',
-                password: '$2b$12$kXqa/JjZZEVcMdJJEPaY.uJUDdvcTv2N8OQlVkgl/vZKLFdoxttPS',
                 roleId: null,
                 status: null,
                 createdAt: '2025-02-27T10:52:28.858',
@@ -115,8 +114,6 @@ const AuthController = {
       }
       res.json(response)
     }catch(err: any){
-      // console.log("messahsagahhahhahh",err.message);
-      console.log(err);
       res.status(500).json({
         message: `Internal Server Error`,
         status: false,

@@ -14,7 +14,7 @@ const TruckController = {
           required: false,
           schema: {
             type: 'string',
-            enum: ['Available', 'In_Transit', 'Under_Maintenance', 'Removed']
+            enum: ['Acive', 'In_Transit', 'Under_Maintenance', 'In_Active']
           }
         }
       */
@@ -42,7 +42,7 @@ const TruckController = {
                       ],
                       id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
                       plateNumber: "12132432425",
-                      status: "Available",
+                      status: "Active",
                       ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
                       createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
                       driverId: null,
@@ -60,7 +60,7 @@ const TruckController = {
                       ],
                       id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
                       plateNumber: "12132432425",
-                      status: "Available",
+                      status: "Active",
                       ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
                       createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
                       driverId: null,
@@ -136,7 +136,7 @@ const TruckController = {
                       ],
                       id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
                       plateNumber: "12132432425",
-                      status: "Available",
+                      status: "Unverified",
                       ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
                       createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
                       driverId: null,
@@ -211,7 +211,7 @@ const TruckController = {
                       ],
                       id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
                       plateNumber: "12132432425",
-                      status: "Available",
+                      status: "Active",
                       ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
                       createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
                       driverId: null,
@@ -302,7 +302,7 @@ const TruckController = {
                       ],
                       id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
                       plateNumber: "12132432425",
-                      status: "Available",
+                      status: "Active",
                       ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
                       createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
                       driverId: null,
@@ -337,7 +337,7 @@ const TruckController = {
       const response = await truckService.getTruckStatusReport(req);
 
     /* #swagger.responses[200] = {
-      description: "Login response",
+      description: "Truck report response",
         content: {
           "application/json": {
             schema:{
@@ -387,47 +387,7 @@ const TruckController = {
         }
       */
 
-
-      /*
-        #swagger.tags= ['Users']
-        #swagger.description = Get truck status report
-        #swagger.requestBody = {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/loginSchema"
-              },
-              example: {
-                email: 'johndoe@sample.com',
-                password: "password"
-              }
-            }
-          }
-        } 
-      */
         const response = await truckService.getCompletedJobs(req);
-
-        /* #swagger.responses[200] = {
-          description: "Login response",
-            content: {
-              "application/json": {
-                schema:{
-                  $ref: "#/components/schemas/loginSchema"
-                },
-                example: {
-                  status: true,
-                  data: {
-                    email: 'johndoe@sample.com',
-                    fullname: 'John Doe',
-                    phone: '08012345678'
-                  },
-                  message: "Successful message"
-                }
-              }           
-            }
-          }
-        */
 
         /* #swagger.responses[200] = {
       description: "completed job",

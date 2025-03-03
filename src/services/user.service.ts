@@ -15,6 +15,15 @@ const UserService = {
           userType,
           phone,
         },
+        select: {
+          id: true,
+          email: true,
+          fullname: true,
+          userType: true,
+          phone: true,
+          createdAt: true,
+          updatedAt: true
+        }
       });
     
     return { message: "user created", status: true, data: user }

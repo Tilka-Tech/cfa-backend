@@ -12,6 +12,7 @@ userRoute.get("/:id", UserController.getOneUser)
 userRoute.post("/role", UserController.createRole)
 userRoute.get("/role", UserController.getRoles)
 userRoute.get("/role/:id", UserController.getOneRole)
+userRoute.patch("/update-user-status/:userId", UserController.updateUserStatus)
 
 
 export default userRoute;

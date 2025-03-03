@@ -47,18 +47,35 @@ const AdminService = {
   },
 
   getUsers: async (req: Request)=>{
-    const {userType="User", status = "Active"} = req.query
+    const {userType="User", status, search, pageNumber, pageSize} = req.query
     const where: Prisma.UserWhereInput = {}
-    if(userType && (userType === "User" || userType === "Admin" || userType === "Driver" || userType === "TruckOwner")){
-      where.userType = userType
-    }
+    // if(userType && (userType === "User" || userType === "Admin" || userType === "Driver" || userType === "TruckOwner")){
+    //   where.userType = userType
+    // }
 
     if(status && (status === "Suspended" || status === "Pending" || status === "Active")){
       where.status = status
     }
+
+        // Add fuzzy search for `fullname` or `email`
+    if (search) {
+      where.OR = [
+        { fullname: { contains: search as string, mode: "insensitive" } },
+        { email: { contains: search as string, mode: "insensitive" } }
+      ];
+    }
+
+    let skip, take
+    if(pageNumber && pageSize){
+      skip = (Number(pageNumber) - 1) * Number(pageSize);
+      take = Number(pageSize);
+    }
+
     // get all users
     const data = await prisma.user.findMany({
       where,
+      skip,
+      take,
       select: {
         userType: true,
         createdAt: true,
@@ -214,6 +231,38 @@ const AdminService = {
       data
      }
   },
+
+  updateUserStatus: async (req: Request)=>{
+    const {userId} = req.params
+    const {status} = req.body
+    const foundUser = await prisma.user.findUnique({
+      where: {id: userId}})
+    if(!foundUser){
+      return {status: false, message: "User not found"}
+    }
+
+    if(status !== "Active" && status !== "Suspended" && status !== "Pending"){
+      return {status: false, message: "Invalid status"}
+    }
+
+    if(foundUser.status === status){
+      return {status: false, message: `User status is already ${status}`}
+    }
+
+    // update user status
+    const updatedData = await prisma.user.update({
+      where: {id: userId},
+      data: {
+        status
+      }
+    })
+const {password: _, ...data} = updatedData
+    return {
+      message: "User status updated",
+      status: true,
+      data
+     }
+  }
 }
 
 export default AdminService

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import AdminService from "../../services/admin/admin.service";
+import TruckService from "../../services/admin/truck.service";
 
 
 const TruckController = {
@@ -7,7 +7,7 @@ const TruckController = {
     try{
       /* 
         #swagger.tags = ['Admin']
-        #swagger.description = 'Get List of trucks'
+        #swagger.description = Get List of trucks
         #swagger.parameters['status'] = {
           in: 'query',
           name: 'status',
@@ -15,11 +15,38 @@ const TruckController = {
           required: false,
           schema: {
             type: 'string',
-            enum: ['Available', 'In_Transit', 'Under_Maintenance', 'Removed']
+            enum: ['Active', 'In_Transit', 'Under_Maintenance', 'In_Active', 'Unverified']
+          }
+        }
+           #swagger.parameters['search'] = {
+          in: 'query',
+          name: 'search',
+          description: 'Fuzzy search for trucks by truck type or plate number',
+          required: false,
+          schema: {
+            type: 'string'
+          }
+        }
+        #swagger.parameters['pageNumber'] = {
+          in: 'query',
+          name: 'pageNumber',
+          description: 'pagination',
+          required: false,
+          schema: {
+            type: 'number'
+          }
+        }
+        #swagger.parameters['pageSize'] = {
+          in: 'query',
+          name: 'pageSize',
+          description: 'pagination',
+          required: false,
+          schema: {
+            type: 'number'
           }
         }
       */
-      const response = await AdminService.getUsers(req);
+      const response = await TruckService.getTrucks(req);
 
    /* #swagger.responses[200] = {
       description: "get all trucks",
@@ -92,38 +119,37 @@ const TruckController = {
     try{
       /*
         #swagger.tags= ['Admin']
-        #swagger.description = 'get single role by id.
-        #swagger.requestBody = {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/loginSchema"
-              },
-              example: {
-                email: 'johndoe@sample.com',
-                password: "password"
-              }
-            }
-          }
-        } 
+        #swagger.description = get single truck by id 
       */
-      const response = await AdminService.getOneRole(req);
+      const response = await TruckService.getOneTruck(req);
 
     /* #swagger.responses[200] = {
-      description: "Login response",
+      description: "single truck response",
         content: {
           "application/json": {
             schema:{
-              $ref: "#/components/schemas/loginSchema"
+              $ref: "#/components/schemas/truckRegistrationSchema"
             },
             example: {
               status: true,
               data: {
-                email: 'johndoe@sample.com',
-                fullname: 'John Doe',
-                phone: '08012345678'
-              },
+                capacity: "2500 tone",
+                  type: "ferrari",
+                  registrationPapers: [
+                        {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                        }
+                      ],
+                      id: "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                      plateNumber: "12132432425",
+                      status: "Available",
+                      ownerId: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      createdById: "c48929ba-212e-4aff-8624-ef694ef4216d",
+                      driverId: null,
+                      createdAt: "2025-02-06T13:00:59.415Z",
+                      updatedAt: "2025-02-06T13:00:59.415Z"
+                    },
               message: "Successful message"
             }
           }           
@@ -145,36 +171,50 @@ const TruckController = {
 
   updateTruckStatus: async (req: Request, res: Response ): Promise<any> =>{
     try{
-      /*
+
+       /*
         #swagger.tags= ['Admin']
-        #swagger.description = 'Create new user.
+        #swagger.description = Update truck status
         #swagger.requestBody = {
           required: true,
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/loginSchema"
+                $ref: "#/components/schemas/updateStatusSchema"
               },
               example: {
-                email: 'johndoe@sample.com',
-                password: "password"
+                status: 'Active'
               }
             }
           }
         } 
         #swagger.responses[200] = {
-          description: "Login response",
+          description: "Update status response",
           content: {
             "application/json": {
               schema:{
-                $ref: "#/components/schemas/loginSchema"
+                $ref: "#/components/schemas/updateStatusSchema"
               },
               example: {
                 status: true,
-                data: {
-                  email: 'johndoe@sample.com',
-                  fullname: 'John Doe',
-                  phone: '08012345678'
+                data:  {
+                  capacity: "2500 tone",
+                  type: "bugati",
+                  registrationPapers: [
+                      {
+                          "key": "zlhzrwg420rw9y464px7",
+                          "url": "https://res.cloudinary.com/dnaj0avcy/image/upload/v1738577300/zlhzrwg420rw9y464px7.png"
+                      }
+                  ],
+                  id: "e03171ee-c958-422b-b476-8af181965f3e",
+                  plateNumber: "12132432424",
+                  status: "Unverified",
+                  ownerId: "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                  createdById: "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                  driverId: null,
+                  locationId: null,
+                  createdAt: "2025-03-01T19:08:37.952Z",
+                  updatedAt: "2025-03-01T19:08:37.952Z"
                 },
                 message: "Successful message"
               }
@@ -182,20 +222,21 @@ const TruckController = {
           }
         }
       */
-      const response = await AdminService.createUser(req);
+      
+      const response = await TruckService.updateTruckStatus(req);
       if(!response.status){
         return res.status(400).json(response);
       }
       res.json(response)
-    }catch(err){
+    }
+    catch(err){
       console.log(err);
       res.status(500).json({
         message: `Internal Server Error`,
         status: false,
       });
     }
-  },
-
+  }
 }
 
 export default TruckController
