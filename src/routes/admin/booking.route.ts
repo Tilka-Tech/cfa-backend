@@ -7,5 +7,6 @@ const bookingRoute: Router = express.Router();
 bookingRoute.put("/:id", BookingController.updateBooking)
 bookingRoute.get("/", BookingController.getBookings)
 bookingRoute.get("/:id", BookingController.getOneBooking)
+bookingRoute.put("/assign", BookingController.assignTruckAndDriver)
 
 export default bookingRoute;
