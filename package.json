@@ -7,7 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node src/swagger.ts && npx tsc && concurrently \"npx tsc --watch\" \"nodemon -q dist/src/server.js\"",
     "build": "npm i && npx prisma db push && npx tsc",
-    "start": "node dist/src/server.js"
+    "start": "node dist/src/server.js",
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "author": "shield",
   "license": "ISC",

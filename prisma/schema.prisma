@@ -157,10 +157,11 @@ model Permission {
   name      String
   method    String
   route     String
-  roleId    String
-  role      Role      @relation(fields: [roleId], references: [id])
+  role      Role[]
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+
+  @@unique([method, route])
 }
 
 enum UserType {
