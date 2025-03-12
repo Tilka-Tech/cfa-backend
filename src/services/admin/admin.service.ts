@@ -215,7 +215,7 @@ const AdminService = {
      }
   },
 
-  createRole: async (req: Request)=>{
+  findOrCreateRole: async (req: Request)=>{
     const {name} = req.body
 
     const found = await prisma.role.findMany({
@@ -332,7 +332,7 @@ const AdminService = {
     };
   },
   updateUserStatus: async (req: Request)=>{
-    const {userId} = req.params
+    const userId = req.params.id
     const {status} = req.body
     const foundUser = await prisma.user.findUnique({
       where: {id: userId}})

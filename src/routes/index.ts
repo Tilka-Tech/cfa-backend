@@ -15,8 +15,8 @@ appRoute.get("/", (req, res) => {
 });
 
 appRoute.use("/auth", authRoute)
-appRoute.use("/user", userRoute)
+appRoute.use("/user", authenticateUser, authorization, userRoute)
 appRoute.use("/admin", authenticateUser, authorization, adminRoute)
-appRoute.use("/order", orderRouter)
+appRoute.use("/order", authenticateUser, orderRouter)
 
 export default appRoute;

@@ -318,7 +318,7 @@ const UserController = {
     }
   },
 
-  createRole: async (req: Request, res: Response ): Promise<any> =>{
+  findOrCreateRole: async (req: Request, res: Response ): Promise<any> =>{
     try{
       /*
         #swagger.tags= ['Admin']
@@ -338,7 +338,7 @@ const UserController = {
           }
         } 
       */
-      const response = await AdminService.createRole(req);
+      const response = await AdminService.findOrCreateRole(req);
 
     /* #swagger.responses[200] = {
       description: "Login response",

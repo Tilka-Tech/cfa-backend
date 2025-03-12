@@ -124,7 +124,7 @@ const BookingController = {
           }
         } 
       */
-      const response = await AdminService.createRole(req);
+      const response = await AdminService.createUser(req);
 
     /* #swagger.responses[200] = {
       description: "Login response",

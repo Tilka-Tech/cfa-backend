@@ -9,10 +9,10 @@ userRoute.post("/", UserController.createUser);
 userRoute.get("/", UserController.getUsers);
 userRoute.get("/permission", UserController.getPermissions);
 userRoute.get("/permission/:id", UserController.getOnePermission);
-userRoute.post("/role", UserController.createRole);
+userRoute.post("/role", UserController.findOrCreateRole);
 userRoute.get("/role", UserController.getRoles);
 userRoute.get("/role/:id", UserController.getOneRole);
-userRoute.patch("/update-user-status/:userId", UserController.updateUserStatus);
+userRoute.patch("/update-user-status/:id", UserController.updateUserStatus);
 userRoute.post("/add-role-permissions", UserController.addRoleToPermissions)
 userRoute.post("/assign-role-user", UserController.assignRoleToUser)
 userRoute.get("/:id", UserController.getOneUser);

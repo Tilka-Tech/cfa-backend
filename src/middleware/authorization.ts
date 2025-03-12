@@ -24,10 +24,6 @@ export const authorization = async (req: Request, res: Response, next: NextFunct
 
         const { permissions } = foundUser.role;
 
-        // console.log("User role:", foundUser.role);
-        // console.log("Permissions:", permissions);
-        // console.log("Requested URL:", req.originalUrl);
-
         if (permissions.length === 0) {
             res.status(403).json({
                 message: "Unauthorized - No permissions assigned",
@@ -36,8 +32,11 @@ export const authorization = async (req: Request, res: Response, next: NextFunct
             return;
         }
 
+         // Convert URL parameters to pattern
+        const requestUrl = req.originalUrl.replace(/\/[0-9a-fA-F-]{36}/g, '/{id}');
+
         // Check if any permission matches the request URL
-        const hasPermission = permissions.some((obj: { route: string }) => obj.route === req.originalUrl);
+        const hasPermission = permissions.some((obj: { route: string, method: string }) => obj.route === requestUrl && obj.method === req.method);
 
         if (!hasPermission) {
             res.status(403).json({

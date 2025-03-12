@@ -911,6 +911,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -976,6 +979,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1127,8 +1133,552 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/admin/user/permission": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Get all roles",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/user/permission/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "get single role by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/user/role": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Create new role.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Get all roles",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/user/role/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "get single role by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/user/update-user-status/{userId}": {
+      "patch": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Update user statua.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update status response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/updateStatusSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "id": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
+                    "isVerified": true,
+                    "fullname": "Jane Doe",
+                    "email": "sample@gmail.com",
+                    "phone": "08012345678",
+                    "userType": "TruckOwner",
+                    "roleId": null,
+                    "status": "Suspended",
+                    "driverStatus": "Online",
+                    "createdAt": "2025-03-01T15:32:10.929Z",
+                    "updatedAt": "2025-03-01T17:12:58.113Z"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateStatusSchema"
+              },
+              "example": {
+                "status": "Active"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/user/add-role-permissions": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Create new role.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/user/assign-role-user": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Create new role.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "email": "johndoe@sample.com",
+                    "fullname": "John Doe",
+                    "phone": "08012345678"
+                  },
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              },
+              "example": {
+                "email": "johndoe@sample.com",
+                "password": "password"
+              }
+            }
           }
         }
       }
@@ -1233,403 +1783,11 @@
           "401": {
             "description": "Unauthorized"
           },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/admin/user/role": {
-      "post": {
-        "tags": [
-          "Admin"
-        ],
-        "description": "Create new role.",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Login response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
-                },
-                "example": {
-                  "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
-                  "message": "Successful message"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Admin"
-        ],
-        "description": "Get all roles",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Login response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
-                },
-                "example": {
-                  "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
-                  "message": "Successful message"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin/user/role/{id}": {
-      "get": {
-        "tags": [
-          "Admin"
-        ],
-        "description": "get single role by id.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Login response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
-                },
-                "example": {
-                  "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
-                  "message": "Successful message"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin/user/permission": {
-      "get": {
-        "tags": [
-          "Admin"
-        ],
-        "description": "Get all roles",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Login response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
-                },
-                "example": {
-                  "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
-                  "message": "Successful message"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin/user/permission/{id}": {
-      "get": {
-        "tags": [
-          "Admin"
-        ],
-        "description": "Get all roles",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Login response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
-                },
-                "example": {
-                  "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
-                  "message": "Successful message"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin/user/update-user-status/{userId}": {
-      "patch": {
-        "tags": [
-          "Admin"
-        ],
-        "description": "Update user statua.",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Update status response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/updateStatusSchema"
-                },
-                "example": {
-                  "status": true,
-                  "data": {
-                    "id": "c81153a0-4e95-40b4-a320-1d0acf8c3e70",
-                    "isVerified": true,
-                    "fullname": "Jane Doe",
-                    "email": "sample@gmail.com",
-                    "phone": "08012345678",
-                    "userType": "TruckOwner",
-                    "roleId": null,
-                    "status": "Suspended",
-                    "driverStatus": "Online",
-                    "createdAt": "2025-03-01T15:32:10.929Z",
-                    "updatedAt": "2025-03-01T17:12:58.113Z"
-                  },
-                  "message": "Successful message"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/updateStatusSchema"
-              },
-              "example": {
-                "status": "Active"
-              }
-            }
           }
         }
       }
@@ -1679,6 +1837,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1746,6 +1907,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1816,6 +1980,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -1884,6 +2051,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -2034,6 +2204,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -2102,6 +2275,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -2123,6 +2299,9 @@
         "responses": {
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"

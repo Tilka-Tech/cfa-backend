@@ -5,9 +5,9 @@ import TruckController from "../../controllers/admin/truck.controller";
 
 const truckRoute: Router = express.Router();
 
-truckRoute.put("/update-truck-status/:truckId", TruckController.updateTruckStatus)
+truckRoute.put("/update-truck-status/:id", TruckController.updateTruckStatus)
 truckRoute.get("/", TruckController.getTrucks)
-truckRoute.get("/:truckId", TruckController.getOneTruck)
+truckRoute.get("/:id", TruckController.getOneTruck)
 
 
 export default truckRoute;
