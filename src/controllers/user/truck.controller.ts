@@ -192,7 +192,7 @@ const TruckController = {
       const response = await truckService.updateTruck(req);
 
     /* #swagger.responses[200] = {
-      description: "Login response",
+      description: "Truck response",
         content: {
           "application/json": {
             schema:{

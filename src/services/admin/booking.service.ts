@@ -1,124 +1,144 @@
 import { Request } from "express"
 import prisma from "../../../prisma/prisma";
 import bcrypt from "bcrypt";
-import { Prisma } from "@prisma/client";
+import { OrderStatus, Prisma } from "@prisma/client";
 
 const BookingService = {
-  getUsers: async (req: Request)=>{
-    const {userType="User", status = "Active"} = req.query
-    const where: Prisma.UserWhereInput = {}
-    if(userType && (userType === "User" || userType === "Admin" || userType === "Driver" || userType === "TruckOwner")){
-      where.userType = userType
+  getBookings: async (req: Request)=>{
+    const {status} = req.query
+    const where: Prisma.OrderWhereInput = {}
+    if(status){
+      where.status = status as OrderStatus
     }
 
-    if(status && (status === "Suspended" || status === "Pending" || status === "Active")){
-      where.status = status
-    }
-    // get all users
-    const data = await prisma.user.findMany({
+    // get all orders
+    const data = await prisma.order.findMany({
       where,
-      select: {
-        userType: true,
-        createdAt: true,
-        email: true,
-        fullname: true,
-        isVerified: true,
-        phone: true,
-        role: true,
-        status: true,
-        createBy: true
-      }
+
     })
 
-    const count = await prisma.user.count({
+    // get order count
+    const count = await prisma.order.count({
       where
     })
 
 
     return {
-      message: "Users retrieved",
+      message: "Orders retrieved",
       status: true,
       data,
       count
      }
   },
 
-  getOneUser: async (req: Request)=>{
-    const userId = req.params.id
-    // get one user
-    const data = await prisma.user.findUnique({
-      where: {id: userId},
-      select: {
-        userType: true,
-        createdAt: true,
-        email: true,
-        fullname: true,
-        isVerified: true,
-        phone: true,
-        role: true,
-        status: true,
-        createBy: true,
-        transaction: true,
-        order: true,
-        addresses: true,
-        roleId: true,
-        truck: true
-      }
+  getOneBooking: async (req: Request)=>{
+    const id = req.params.id
+    // get one ordere
+    const data = await prisma.order.findUnique({
+      where: {id},
     })
 
     return {
-      message: "User retrieved",
+      message: "Order retrieved",
       status: true,
       data
      }
   },
 
-  createUser: async (req: Request)=>{
-    const {userType, roleId, email, phone, fullname, password} = req.body
+  updateBooking: async (req: Request)=>{
+    const {status} = req.body
+    const {id} = req.params
 
-    // check if email already exist
-    const emailExist = await prisma.user.findUnique({
-      where: {email}
+    // check if order
+    const orderExist = await prisma.order.findUnique({
+      where: {id}
     })
-    if(emailExist){
-      return {status: false, message: "User with email already exist"}
+    if(!orderExist){
+      return {status: false, message: "Order does not exist"}
     }
 
-    // check if role exist for Admin Usertype
-    if(userType === "Admin"){
-      if(!roleId){
-        return {status: false, message: "roleId must be passed to create admin user"}
-      }
-      const role = await prisma.role.findUnique({
-        where: {id: roleId}
-      })
-      if(!role){
-        return {status: false, message: "role does not exist"}
-      }
-    }
-      const salt = await bcrypt.genSalt(12);
-      const hashPassword = await bcrypt.hash(password, salt)
-
-    // create new user
-    const data = await prisma.user.create({
+    // update order
+    const data = await prisma.order.update({
       data: {
-        userType,
-        email,
-        fullname,
-        phone,
-        ...(userType === "Admin" && {role: roleId}),
-        status: "Active",
-        createBy: req.user.id,
-        password: hashPassword,
-      }
+        status
+      },
+      where: {id}
     })
-
-    // send email to user
 
     return {
-      message: "Users created successfuly",
+      message: "Order status updated successfuly",
       status: true,
       data,
+     }
+  },
+
+  assignTruckAndDriver: async (req: Request)=>{
+    const {truckId, driverId} = req.body
+    const {id} = req.params
+    // check if order exist
+    const order = await prisma.order.findFirst({
+      where: {id}
+    })
+    if(!order){
+      return {
+        message: "Order not found",
+        status: false,
+       }
+    }
+
+    if(order.status === "In_Progress"){
+      return {
+        message: "Order has been accepted",
+        status: false,
+       }
+    }
+
+    // check if driver exist
+    const driver = await prisma.user.findFirst({
+      where: {AND: [{id: driverId}, {userType: "Driver"}]}
+    })
+    if(!driver){
+      return {
+        message: "Driver not found",
+        status: false,
+       }
+    }
+    if(driver.status !== "Active"){
+      return {
+        message: "Driver has been either suspended or pending",
+        status: false,
+       }
+    }
+    if(driver.driverStatus !== "Online"){
+      return {
+        message: "Driver currently not available",
+        status: false,
+       }
+    }
+    // check if truck exist
+    const truck = await prisma.truck.findFirst({
+      where: {id: truckId}
+    })
+
+    if(!truck){
+      return {
+        message: "Truck not found",
+        status: false,
+       }
+    }
+
+    if(truck.status !== "Active"){
+      return {
+        message: "Truck is currently not available for use",
+        status: false,
+       }
+    }
+
+    // send email to driver
+
+    return {
+      message: "Truck and driver assigned to the order",
+      status: true,
      }
   },
 

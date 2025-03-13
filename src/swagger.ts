@@ -75,7 +75,8 @@ const doc = {
                 $recipientPhone: "08012345678"
             },
             updateStatusSchema:{
-                $status: "Active"}
+                $status: "Active"
+            }
         },
     },
     tags: [
