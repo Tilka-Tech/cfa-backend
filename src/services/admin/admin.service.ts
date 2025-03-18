@@ -124,7 +124,6 @@ const AdminService = {
         truck: true
       }
     })
-
     return {
       message: "User retrieved",
       status: true,
@@ -216,9 +215,23 @@ const AdminService = {
      }
   },
 
-  createRole: async (req: Request)=>{
+  findOrCreateRole: async (req: Request)=>{
     const {name} = req.body
-    // create one role
+
+    const found = await prisma.role.findMany({
+      where: { name: { contains: name as string, mode: "insensitive" } }
+    });
+
+     // Check if any matching role exists
+    if(found.length > 0){
+      return {
+        message: "Role found",
+        status: true,
+        data: found
+      }
+    }
+
+    // If no match, create a new role
     const data = await prisma.role.create({
       data: {
         name,
@@ -232,8 +245,94 @@ const AdminService = {
      }
   },
 
+  getPermissions: async (req: Request)=>{
+
+    // get all permissions
+    const data = await prisma.permission.findMany()
+
+    const count = await prisma.permission.count()
+
+    return {
+      message: "permissions retrieved",
+      status: true,
+      data,
+      count
+     }
+  },
+
+  getOnePermission: async (req: Request)=>{
+    const permissionId = req.params.id
+    // get one permission
+    const data = await prisma.permission.findUnique({
+      where: {id: permissionId},
+      // include: {
+      //   // permissions: true,
+      //   users: true
+      // }
+    })
+
+    return {
+      message: "permission retrieved",
+      status: true,
+      data
+     }
+  },
+  addRoleToPermissions:  async (req: Request)=>{
+    const {permissionIds, roleId} = req.body
+
+    // Ensure permissionIds is an array and roleId is provided
+    if (!Array.isArray(permissionIds) || !roleId) {
+      return {
+        message: "Invalid input. Ensure permissionIds is an array and roleId is provided.",
+        status: false
+      };
+    }
+
+     // Update the role to connect the permissions
+     const updatedRole = await prisma.role.update({
+      where: { id: roleId },
+      data: {
+        permissions: {
+          connect: permissionIds.map(id => ({ id })) // Connect multiple permissions
+        }
+      },
+      include: { permissions: true } // Return updated role with permissions
+    });
+
+    return {
+      message: "Permissions added to role successfully",
+      status: true,
+      data: updatedRole
+    };
+  },
+  assignRoleToUser:async (req: Request)=>{
+    const {userId, roleId} = req.body
+
+    // Ensure permissionIds is an array and roleId is provided
+    if (!userId || !roleId) {
+      return {
+        message: "Invalid input. Ensure userId and roleId is provided.",
+        status: false
+      };
+    }
+
+     // Update the role to connect the permissions
+     const updatedRole = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        roleId
+      }
+        
+    });
+
+    return {
+      message: "role added to user successfully",
+      status: true,
+      data: updatedRole
+    };
+  },
   updateUserStatus: async (req: Request)=>{
-    const {userId} = req.params
+    const userId = req.params.id
     const {status} = req.body
     const foundUser = await prisma.user.findUnique({
       where: {id: userId}})
@@ -256,7 +355,7 @@ const AdminService = {
         status
       }
     })
-const {password: _, ...data} = updatedData
+    const {password: _, ...data} = updatedData
     return {
       message: "User status updated",
       status: true,

@@ -97,7 +97,7 @@ const truckService = {
     try {
 
       const { licensePlate, truckCapacity, truckType, ownerId, registrationPapers } = req.body;
-      const { truckId } = req.params;
+      const truckId = req.params.id;
   
       if (!truckId || !licensePlate || !truckCapacity || !truckType) {
         return { status: false, message: 'Invalid input data' };
@@ -176,7 +176,7 @@ const truckService = {
   },
     
   deleteTruck: async(req: Request): Promise<any> =>{
-    const {truckId} = req.params;
+    const truckId = req.params.id;
     const {id} = req.user;
     // Ensure the user is either the creator or the owner
     const truck = await prismaClient.truck.findUnique({
@@ -204,7 +204,7 @@ const truckService = {
   },
 
   getTruckById: async (req : Request): Promise<any>=>{
-    const {truckId} = req.params;
+    const truckId = req.params.id;
     const {id} = req.user;
     const fountTruck = await prismaClient.truck.findUnique({
         where: { id: truckId },

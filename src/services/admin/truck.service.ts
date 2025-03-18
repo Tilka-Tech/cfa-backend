@@ -46,7 +46,7 @@ const TruckService = {
   },
 
   getOneTruck: async (req: Request)=>{
-    const {truckId} = req.params
+    const truckId = req.params.id
     // get one truck
     const data = await prisma.truck.findUnique({
       where: {id: truckId}
@@ -59,7 +59,7 @@ const TruckService = {
      }
   },
   updateTruckStatus: async (req: Request)=>{
-    const {truckId} = req.params
+    const truckId = req.params.id
     const {status} = req.body
     const foundTruck = await prisma.truck.findUnique({
       where: {id: truckId}})
