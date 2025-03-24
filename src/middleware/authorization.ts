@@ -32,9 +32,14 @@ export const authorization = async (req: Request, res: Response, next: NextFunct
             return;
         }
 
+        let requestUrl
          // Convert URL parameters to pattern
-        const requestUrl = req.originalUrl.replace(/\/[0-9a-fA-F-]{36}/g, '/{id}');
-
+         // this is use to handle dynamic id
+        requestUrl = req.originalUrl.replace(/\/[0-9a-fA-F-]{36}/g, '/{id}');
+        // Remove query parameters if present
+        if (req.originalUrl.includes("?")) {
+            requestUrl = requestUrl.slice(0, req.originalUrl.indexOf("?"));
+        }
         // Check if any permission matches the request URL
         const hasPermission = permissions.some((obj: { route: string, method: string }) => obj.route === requestUrl && obj.method === req.method);
 
