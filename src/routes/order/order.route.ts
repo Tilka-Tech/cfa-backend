@@ -8,5 +8,8 @@ const orderRoute: Router = express.Router();
 
 
 orderRoute.post('/', validate(orderValidation.createOrder), OrderController.createOrder);
+// orderRoute.post('/address', validate(orderValidation.createAdress), OrderController.createAddress);
+// orderRoute.put('/address/:id', OrderController.updateAddress);
+// orderRoute.get('/address', OrderController.getAddress);
 
 export default orderRoute;
