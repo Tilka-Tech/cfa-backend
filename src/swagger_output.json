@@ -147,7 +147,8 @@
                 "email": "johndoe@sample.com",
                 "password": "password",
                 "fullname": "John Doe",
-                "phone": "08012345678"
+                "phone": "08012345678",
+                "userType": "Truck Owner"
               }
             }
           }
@@ -343,6 +344,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -450,6 +454,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -507,6 +514,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -615,13 +625,16 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
         }
       }
     },
-    "/user/truck/{truckId}": {
+    "/user/truck/{id}": {
       "patch": {
         "tags": [
           "Users"
@@ -629,7 +642,7 @@
         "description": "Update truck details",
         "parameters": [
           {
-            "name": "truckId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -646,7 +659,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "Truck response",
             "content": {
               "application/json": {
                 "schema": {
@@ -683,6 +696,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -716,7 +732,7 @@
         "description": "Delete truck",
         "parameters": [
           {
-            "name": "truckId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -753,6 +769,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -765,7 +784,7 @@
         "description": "Get truck by id",
         "parameters": [
           {
-            "name": "truckId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -819,6 +838,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -866,6 +888,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1476,7 +1501,7 @@
         }
       }
     },
-    "/admin/user/update-user-status/{userId}": {
+    "/admin/user/update-user-status/{id}": {
       "patch": {
         "tags": [
           "Admin"
@@ -1484,7 +1509,7 @@
         "description": "Update user statua.",
         "parameters": [
           {
-            "name": "userId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -1797,7 +1822,7 @@
         "tags": [
           "Admin"
         ],
-        "description": "Create new role.",
+        "description": "Update booking status.",
         "parameters": [
           {
             "name": "id",
@@ -1817,7 +1842,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "Update booking response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1825,15 +1850,14 @@
                 },
                 "example": {
                   "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
+                  "data": {},
                   "message": "Successful message"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -1850,11 +1874,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/loginSchema"
+                "$ref": "#/components/schemas/updateStatusSchema"
               },
               "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
+                "status": "Pending"
               }
             }
           }
@@ -1884,19 +1907,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "Get single booking response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/orderSchema"
                 },
                 "example": {
                   "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
+                  "data": {},
                   "message": "Successful message"
                 }
               }
@@ -1913,20 +1932,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/loginSchema"
-              },
-              "example": {
-                "email": "johndoe@sample.com",
-                "password": "password"
-              }
-            }
           }
         }
       }
@@ -1948,27 +1953,58 @@
           {
             "name": "pageSize",
             "in": "query",
-            "description": "Some description...",
+            "description": "page size",
             "schema": {
               "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Fetch bookings by status",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "enum": {
+                  "type": "array",
+                  "example": [
+                    "Acive",
+                    "In_Progress",
+                    "Pending",
+                    "COmpleted"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Login response",
+            "description": "Get all bookings response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/loginSchema"
+                  "$ref": "#/components/schemas/orderSchema"
                 },
                 "example": {
                   "status": true,
-                  "data": {
-                    "email": "johndoe@sample.com",
-                    "fullname": "John Doe",
-                    "phone": "08012345678"
-                  },
+                  "data": [],
                   "message": "Successful message"
                 }
               }
@@ -1989,7 +2025,64 @@
         }
       }
     },
-    "/admin/truck/update-truck-status/{truckId}": {
+    "/admin/booking/assign": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Assign truck and driver to order.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Assign driver and truck to booking response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {},
+                  "message": "Successful message"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/orderSchema"
+              },
+              "example": {
+                "truckId": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7",
+                "driverId": "62d5eaad-ce6a-4429-bc8d-8d1aae850de7"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/truck/update-truck-status/{id}": {
       "put": {
         "tags": [
           "Admin"
@@ -1997,7 +2090,7 @@
         "description": "Update truck status",
         "parameters": [
           {
-            "name": "truckId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -2213,7 +2306,7 @@
         }
       }
     },
-    "/admin/truck/{truckId}": {
+    "/admin/truck/{id}": {
       "get": {
         "tags": [
           "Admin"
@@ -2221,7 +2314,7 @@
         "description": "get single truck by id",
         "parameters": [
           {
-            "name": "truckId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -2308,6 +2401,213 @@
           }
         }
       }
+    },
+    "/order/address/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pickup address updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "id": "1ab7f032-2af5-4d84-a6e3-2f869b55c70e",
+                    "userId": "ff0c3469-db01-402c-bad8-9ecf48474289",
+                    "country": "Nigeria",
+                    "state": "Ogun",
+                    "city": "Oshodi",
+                    "street": "Aswani Road",
+                    "houseNumber": "27",
+                    "landmark": null,
+                    "postalCode": null,
+                    "status": true,
+                    "isDefault": true,
+                    "isPickup": true,
+                    "createdAt": "2025-04-01T18:22:48.237Z",
+                    "updatedAt": "2025-04-07T21:50:08.617Z"
+                  },
+                  "message": "Pickup address updated successfully"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/order/address": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "address creation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressSchema"
+                },
+                "example": {
+                  "status": true,
+                  "message": "Address created successfully"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a single address response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": [
+                    {
+                      "id": "1ab7f032-2af5-4d84-a6e3-2f869b55c70e",
+                      "userId": "ff0c3469-db01-402c-bad8-9ecf48474289",
+                      "country": "Nigeria",
+                      "state": "Ogun",
+                      "city": "Oshodi",
+                      "street": "Aswani Road",
+                      "houseNumber": "27",
+                      "landmark": null,
+                      "postalCode": null,
+                      "status": true,
+                      "isDefault": true,
+                      "isPickup": true,
+                      "createdAt": "2025-04-01T18:22:48.237Z",
+                      "updatedAt": "2025-04-07T21:50:08.617Z"
+                    },
+                    {
+                      "id": "1ab7f032-2af5-4d84-a6e3-2f869b55c70e",
+                      "userId": "ff0c3469-db01-402c-bad8-9ecf48474289",
+                      "country": "Nigeria",
+                      "state": "Ogun",
+                      "city": "Oshodi",
+                      "street": "Aswani Road",
+                      "houseNumber": "27",
+                      "landmark": null,
+                      "postalCode": null,
+                      "status": true,
+                      "isDefault": true,
+                      "isPickup": true,
+                      "createdAt": "2025-04-01T18:22:48.237Z",
+                      "updatedAt": "2025-04-07T21:50:08.617Z"
+                    }
+                  ],
+                  "message": "address found"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2338,29 +2638,108 @@
       "registerSchema": {
         "type": "object",
         "properties": {
-          "email": {
+          "type": {
             "type": "string",
-            "example": "johno@sample.com"
+            "example": "object"
           },
-          "password": {
-            "type": "string",
-            "example": "password"
+          "properties": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "format": {
+                    "type": "string",
+                    "example": "email"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "johno@sample.com"
+                  }
+                }
+              },
+              "password": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "password"
+                  }
+                }
+              },
+              "fullname": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "John Doe"
+                  }
+                }
+              },
+              "phone": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "08012345678"
+                  }
+                }
+              },
+              "userType": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "enum": {
+                    "type": "array",
+                    "example": [
+                      "Truck Owner",
+                      "Driver"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "Truck Owner"
+                  }
+                }
+              }
+            }
           },
-          "fullname": {
-            "type": "string",
-            "example": "John doe"
-          },
-          "phone": {
-            "type": "string",
-            "example": "08012345678"
+          "required": {
+            "type": "array",
+            "example": [
+              "email",
+              "password",
+              "fullname",
+              "phone",
+              "userType"
+            ],
+            "items": {
+              "type": "string"
+            }
           }
-        },
-        "required": [
-          "email",
-          "password",
-          "fullname",
-          "phone"
-        ]
+        }
       },
       "forgotPasswordSchema": {
         "type": "object",
@@ -2465,6 +2844,49 @@
             "type": "string",
             "example": "1000"
           },
+          "pickupId": {
+            "type": "string",
+            "example": "12223"
+          },
+          "deliveryId": {
+            "type": "string",
+            "example": "122121"
+          },
+          "recipientName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "recipientPhone": {
+            "type": "string",
+            "example": "08012345678"
+          }
+        },
+        "required": [
+          "neededTruckType",
+          "commodityToDeliver",
+          "estimatedWeightOfDelivarables",
+          "numberOfDeleverable",
+          "pickupId",
+          "deliveryId",
+          "recipientName",
+          "recipientPhone"
+        ]
+      },
+      "updateStatusSchema": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "Active"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "addressSchema": {
+        "type": "object",
+        "properties": {
           "pickUpHouseNumber": {
             "type": "string",
             "example": "12"
@@ -2500,21 +2922,9 @@
           "country": {
             "type": "string",
             "example": "Nigeria"
-          },
-          "recipientName": {
-            "type": "string",
-            "example": "John Doe"
-          },
-          "recipientPhone": {
-            "type": "string",
-            "example": "08012345678"
           }
         },
         "required": [
-          "neededTruckType",
-          "commodityToDeliver",
-          "estimatedWeightOfDelivarables",
-          "numberOfDeleverable",
           "pickUpHouseNumber",
           "pickupAddress",
           "pickUpCity",
@@ -2523,21 +2933,7 @@
           "deliveryAddress",
           "deliveryCity",
           "deliveableState",
-          "country",
-          "recipientName",
-          "recipientPhone"
-        ]
-      },
-      "updateStatusSchema": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "example": "Active"
-          }
-        },
-        "required": [
-          "status"
+          "country"
         ]
       }
     }

@@ -118,7 +118,8 @@ const AdminService = {
         status: true,
         createBy: true,
         transaction: true,
-        order: true,
+        userOrder: true,
+        driverOrder: true,
         addresses: true,
         roleId: true,
         truck: true

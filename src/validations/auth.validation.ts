@@ -21,6 +21,7 @@ const AuthValidation = {
       fullname:Joi.string().required().pattern(/^[A-Za-z]+(?: [A-Za-z]+)+$/),
       email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
       phone: Joi.string().min(10).max(15).required(),
+      userType: Joi.string().required(),
       password: Joi.string()
         .min(8)
         .pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)

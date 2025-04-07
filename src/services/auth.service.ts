@@ -59,7 +59,7 @@ const AuthService = {
   },
   
   postCreateUser: async (req: Request)=>{
-    const {fullname, email, phone, password} = req.body
+    const {fullname, email, phone, password, userType} = req.body
     // check if user already exist 
     const userExist = await prismaClient.user.findFirst({
       where: {email}
@@ -74,8 +74,9 @@ const AuthService = {
         email,
         fullname,
         password: hashPassword,
-        userType: "TruckOwner",
+        userType: userType.toLowerCase() === 'truck owner' ? "TruckOwner" : "Driver",
         phone,
+        driverStatus: userType.toLowerCase() === "driver" ? "Online" : null,
       },
     });
 

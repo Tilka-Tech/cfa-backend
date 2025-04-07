@@ -23,7 +23,8 @@ model User {
   createBy     Truck[]       @relation(name: "created")
   truckDriver  Truck?        @relation(name: "driver")
   addresses    UserAddress[]
-  order        Order[]
+  userOrder    Order[]       @relation("user")
+  driverOrder  Order[]       @relation("driver")
   token        Token[]
   status       UserStatus    @default(Pending)
   transaction  Transaction[]
@@ -89,7 +90,9 @@ model Truck {
 model Order {
   id                            String       @id @default(uuid())
   userId                        String
-  user                          User         @relation(fields: [userId], references: [id])
+  user                          User         @relation(fields: [userId], references: [id], name: "user")
+  driverId                      String?
+  driver                        User?        @relation(fields: [driverId], references: [id], name: "driver")
   truckId                       String?
   truck                         Truck?       @relation(fields: [truckId], references: [id])
   pickupId                      String
@@ -136,11 +139,14 @@ model UserAddress {
   postalCode    String?
   status        Boolean
   isDefault     Boolean
+  isPickup      Boolean   @default(true)
   pickupOrder   Order[]   @relation(name: "pickup")
   deliveryOrder Order[]   @relation(name: "delivery")
   truck         Truck[]   @relation(name: "currentLocation")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime? @updatedAt
+
+  @@unique([houseNumber, userId, street])
 }
 
 model Role {
@@ -183,6 +189,7 @@ enum OrderStatus {
   Pending
   Completed
   In_Progress
+  Rejected
 }
 
 enum DriverStatus {

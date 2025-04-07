@@ -36,6 +36,7 @@ export const authorization = async (req: Request, res: Response, next: NextFunct
          // Convert URL parameters to pattern
          // this is use to handle dynamic id
         requestUrl = req.originalUrl.replace(/\/[0-9a-fA-F-]{36}/g, '/{id}');
+         // this is use to handle search params with ?
         // Remove query parameters if present
         if (req.originalUrl.includes("?")) {
             requestUrl = requestUrl.slice(0, req.originalUrl.indexOf("?"));

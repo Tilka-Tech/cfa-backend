@@ -74,7 +74,8 @@ const AuthController = {
                 email: 'johndoe@sample.com',
                 password: 'password',
                 fullname: 'John Doe',
-                phone: '08012345678'
+                phone: '08012345678',
+                userType: 'Truck Owner'
               }
             }
           }
