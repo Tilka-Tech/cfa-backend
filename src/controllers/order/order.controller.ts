@@ -83,34 +83,37 @@ const OrderController = {
     },
     createAddress: async(req: Request, res: Response): Promise<any>=>{
         try {
-
             /*
-            #swagger.tags = ['Address']
-            #swagger.description = "Endpoint to create address",
+            #swagger.tags= ['Address']
+            #swagger.description = Endpoint to create address.
+            #swagger.parameters['authorization'] = {
+            in: 'header',
+            required: true,
+            type: 'string'
+            description: 'Bearer token'}
             #swagger.requestBody = {
-                required: true,
-                content: {
-                    "application/json": {
-                        schema: {
-                            $ref: "#/components/schemas/addressSchema"
-                        }
-                    }
-                },
-                example: {
-                    pickUpHouseNumber:"23",
-                    pickupAddress:"Aswani Road",
-                    pickUpCity:"Oshodi",
-                    pickUpState:"Ogun",
-                    deliveryHouseNumber:"13",
-                    deliveryAddress:"Agric Ikorodu",
-                    deliveryCity:"Oshodi",
-                    deliveableState""Lagos",
-                    country:"Nigeria"
+              required: true,
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: "#/components/schemas/addressSchema"
+                  },
+                  example: {
+                    pickUpHouseNumber:'23',
+                    pickupAddress:'Aswani Road',
+                    pickUpCity:'Oshodi',
+                    pickUpState:'Ogun',
+                    deliveryHouseNumber:'13',
+                    deliveryAddress:'Agric Ikorodu',
+                    deliveryCity:'Oshodi',
+                    deliveableState: 'Lagos',
+                    country:Nigeria'
+                  }
                 }
-            }
-            */
-
-            const response = await orderService.createAddress(req);
+              }
+            } 
+          */
+          const response = await orderService.createAddress(req);
             /*
             #swagger.responses[200] = {
             description: "address creation response",
@@ -332,6 +335,43 @@ const OrderController = {
               status: false,
             });
           }
+    },
+    deleteAddress: async(req: Request, res: Response): Promise<any>=>{
+      try{
+        /*
+            #swagger.tags = ['Address']
+            #swagger.description = Endpoint to delete address
+        */
+       const response = await orderService.deleteAddress(req);
+
+       /*
+        #swagger.responses[200] = {
+          description: "Delete address response",
+            content: {
+              "application/json": {
+                schema:{
+                  $ref: "#/components/schemas/addressSchema"
+                },
+                example: {
+                  status: true,
+                  message: "address deleted successfully"
+                }
+              }
+            }
+          }
+       */
+
+       if(!response.status){
+        return res.status(400).json(response);
+      }
+
+      }catch(err){
+        console.log(err);
+        res.status(500).json({
+          message: `Internal Server Error`,
+          status: false
+        })
+      }
     }
 }
 

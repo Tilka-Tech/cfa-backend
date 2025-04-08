@@ -254,8 +254,8 @@ const orderService = {
         try{
             const {id} = req.user;
             const {id: addressId} = req.params
-
-     const foundAddresses = await prismaClient.userAddress.findMany({
+            console.log("hhahhahahhahhahah");
+            const foundAddresses = await prismaClient.userAddress.findMany({
          where: { userId: id, id: addressId }
      });
             if(foundAddresses.length === 0)
@@ -269,6 +269,35 @@ const orderService = {
                 status: true,
                 message: "address found",
                 data: foundAddresses
+            }
+        }catch(err){
+            console.log(err);
+            return err
+        }
+    },
+    deleteAddress: async(req: Request): Promise<any> =>{
+        try{
+            const {id} = req.user;
+            const {id: addressId} = req.params
+            console.log("delee");
+
+            const deleted = await prismaClient.userAddress.deleteMany({
+                where: {
+                    id: addressId,
+                    userId: id
+                }
+            });
+    
+            if (deleted.count === 0) {
+                return {
+                    status: false,
+                    message: "Address not found or unauthorized",
+                };
+            }
+
+            return {
+                status: true,
+                message: "Address deleted"
             }
         }catch(err){
             console.log(err);

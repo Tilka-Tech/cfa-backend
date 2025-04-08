@@ -109,6 +109,14 @@ const doc = {
         name: 'Auth',
         description: 'Authentication encpoints for all users',
       },
+      {
+        name: 'Address',
+        description: 'Address encpoints for all users',
+      },
+      {
+        name: 'Order',
+        description: 'Address encpoints for all users',
+      },
     ],
 };
 

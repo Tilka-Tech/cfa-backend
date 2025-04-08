@@ -34,6 +34,14 @@
     {
       "name": "Auth",
       "description": "Authentication encpoints for all users"
+    },
+    {
+      "name": "Address",
+      "description": "Address encpoints for all users"
+    },
+    {
+      "name": "Order",
+      "description": "Address encpoints for all users"
     }
   ],
   "paths": {
@@ -2402,103 +2410,6 @@
         }
       }
     },
-    "/order/address/{id}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Pickup address updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/addressSchema"
-                },
-                "example": {
-                  "status": true,
-                  "data": {
-                    "id": "1ab7f032-2af5-4d84-a6e3-2f869b55c70e",
-                    "userId": "ff0c3469-db01-402c-bad8-9ecf48474289",
-                    "country": "Nigeria",
-                    "state": "Ogun",
-                    "city": "Oshodi",
-                    "street": "Aswani Road",
-                    "houseNumber": "27",
-                    "landmark": null,
-                    "postalCode": null,
-                    "status": true,
-                    "isDefault": true,
-                    "isPickup": true,
-                    "createdAt": "2025-04-01T18:22:48.237Z",
-                    "updatedAt": "2025-04-07T21:50:08.617Z"
-                  },
-                  "message": "Pickup address updated successfully"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/order/address": {
       "post": {
         "description": "",
@@ -2596,6 +2507,137 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/order/address/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pickup address updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "id": "1ab7f032-2af5-4d84-a6e3-2f869b55c70e",
+                    "userId": "ff0c3469-db01-402c-bad8-9ecf48474289",
+                    "country": "Nigeria",
+                    "state": "Ogun",
+                    "city": "Oshodi",
+                    "street": "Aswani Road",
+                    "houseNumber": "27",
+                    "landmark": null,
+                    "postalCode": null,
+                    "status": true,
+                    "isDefault": true,
+                    "isPickup": true,
+                    "createdAt": "2025-04-01T18:22:48.237Z",
+                    "updatedAt": "2025-04-07T21:50:08.617Z"
+                  },
+                  "message": "Pickup address updated successfully"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "401": {
             "description": "Unauthorized"

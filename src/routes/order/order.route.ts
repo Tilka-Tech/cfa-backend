@@ -7,10 +7,15 @@ import orderValidation from '../../validations/order.validator';
 const orderRoute: Router = express.Router();
 
 
+// Order routes
 orderRoute.post('/', validate(orderValidation.createOrder), OrderController.createOrder);
-orderRoute.put('/address/:id', OrderController.updateAddress);
-orderRoute.get('/address/:id', OrderController.getAddress);
+
+// Address routes
 orderRoute.post('/address', validate(orderValidation.createAdress), OrderController.createAddress);
 orderRoute.get('/address', OrderController.getAddreses);
+orderRoute.get('/address/:id', OrderController.getAddress);
+orderRoute.put('/address/:id', OrderController.updateAddress);
+orderRoute.delete('/address/:id', OrderController.deleteAddress);
+
 
 export default orderRoute;
