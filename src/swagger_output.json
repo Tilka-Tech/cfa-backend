@@ -2387,32 +2387,10 @@
     },
     "/order/": {
       "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
+        "tags": [
+          "Order"
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/order/address": {
-      "post": {
-        "description": "",
+        "description": "Endpoint to create order",
         "parameters": [
           {
             "name": "authorization",
@@ -2424,7 +2402,89 @@
         ],
         "responses": {
           "200": {
-            "description": "address creation response",
+            "description": "Order created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/orderSchema"
+                },
+                "example": {
+                  "status": true,
+                  "message": "Order created successfully",
+                  "data": {
+                    "id": "21a9bf20-6db6-485f-ac29-427e14b45312",
+                    "userId": "ff0c3469-db01-402c-bad8-9ecf48474289",
+                    "driverId": null,
+                    "truckId": null,
+                    "pickupId": "1ab7f032-2af5-4d84-a6e3-2f869b55c70e",
+                    "deliveryId": "230b61ac-d3db-47f3-acd5-b8a5947e73ec",
+                    "neededTruckType": "hiab",
+                    "commodityToDeliver": "coacoa",
+                    "estimatedWeightOfDelivarables": "400kg",
+                    "numberOfDeleverable": "20",
+                    "recipientName": "Adam Lalana",
+                    "recipientPhone": "+23",
+                    "status": "Pending",
+                    "createdAt": "2025-04-14T09:10:42.521Z",
+                    "updatedAt": "2025-04-14T09:10:42.521Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/orderSchema"
+              },
+              "example": {
+                "neededTruckType": "Flatbed",
+                "commodityToDeliver": "Cement",
+                "estimatedWeightOfDelivarables": "2000",
+                "numberOfDeleverable": "1000",
+                "recipientName": "John Doe",
+                "recipientPhone": "08012345678"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order/address": {
+      "post": {
+        "tags": [
+          "Address"
+        ],
+        "description": "Endpoint to create address.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bearer token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Address creation response",
             "content": {
               "application/json": {
                 "schema": {
@@ -2437,6 +2497,9 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "401": {
             "description": "Unauthorized"
           },
@@ -2446,16 +2509,50 @@
           "500": {
             "description": "Internal Server Error"
           }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/addressSchema"
+              },
+              "example": {
+                "pickUpHouseNumber": "23",
+                "pickupAddress": "Aswani Road",
+                "pickUpCity": "Oshodi",
+                "pickUpState": "Ogun",
+                "deliveryHouseNumber": "13",
+                "deliveryAddress": "Agric Ikorodu",
+                "deliveryCity": "Oshodi",
+                "deliveableState": "Lagos",
+                "country": "Nigeria"
+              }
+            }
+          }
         }
       },
       "get": {
-        "description": "",
+        "tags": [
+          "Address"
+        ],
+        "description": "Get all address",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "isPickup",
+            "in": "query",
+            "description": "Filter to retrieve only pickup addresses. Use true or false.",
+            "required": false,
+            "example": false,
+            "schema": {
+              "type": "boolean"
             }
           }
         ],
@@ -2487,26 +2584,29 @@
                       "updatedAt": "2025-04-07T21:50:08.617Z"
                     },
                     {
-                      "id": "1ab7f032-2af5-4d84-a6e3-2f869b55c70e",
+                      "id": "2cd8f132-2af5-4d84-a6e3-3f869b55c70f",
                       "userId": "ff0c3469-db01-402c-bad8-9ecf48474289",
                       "country": "Nigeria",
-                      "state": "Ogun",
-                      "city": "Oshodi",
-                      "street": "Aswani Road",
-                      "houseNumber": "27",
+                      "state": "Lagos",
+                      "city": "Ikorodu",
+                      "street": "Agric Ikorodu",
+                      "houseNumber": "13",
                       "landmark": null,
                       "postalCode": null,
                       "status": true,
-                      "isDefault": true,
-                      "isPickup": true,
+                      "isDefault": false,
+                      "isPickup": false,
                       "createdAt": "2025-04-01T18:22:48.237Z",
                       "updatedAt": "2025-04-07T21:50:08.617Z"
                     }
                   ],
-                  "message": "address found"
+                  "message": "Address found"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -2522,7 +2622,10 @@
     },
     "/order/address/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Address"
+        ],
+        "description": "Get one address by ID",
         "parameters": [
           {
             "name": "id",
@@ -2542,7 +2645,37 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Get a single address response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressSchema"
+                },
+                "example": {
+                  "status": true,
+                  "data": {
+                    "id": "1ab7f032-2af5-4d84-a6e3-2f869b55c70e",
+                    "userId": "ff0c3469-db01-402c-bad8-9ecf48474289",
+                    "country": "Nigeria",
+                    "state": "Ogun",
+                    "city": "Oshodi",
+                    "street": "Aswani Road",
+                    "houseNumber": "27",
+                    "landmark": null,
+                    "postalCode": null,
+                    "status": true,
+                    "isDefault": true,
+                    "isPickup": true,
+                    "createdAt": "2025-04-01T18:22:48.237Z",
+                    "updatedAt": "2025-04-07T21:50:08.617Z"
+                  },
+                  "message": "Address found"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -2556,7 +2689,10 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Address"
+        ],
+        "description": "Endpoint to update address",
         "parameters": [
           {
             "name": "id",
@@ -2605,6 +2741,9 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "401": {
             "description": "Unauthorized"
           },
@@ -2614,10 +2753,34 @@
           "500": {
             "description": "Internal Server Error"
           }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/addressSchema"
+              },
+              "example": {
+                "pickUpHouseNumber": "23",
+                "pickupAddress": "Aswani Road",
+                "pickUpCity": "Oshodi",
+                "pickUpState": "Ogun",
+                "deliveryHouseNumber": "13",
+                "deliveryAddress": "Agric Ikorodu",
+                "deliveryCity": "Oshodi",
+                "deliveableState": "Lagos",
+                "country": "Nigeria"
+              }
+            }
+          }
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Address"
+        ],
+        "description": "Endpoint to delete address",
         "parameters": [
           {
             "name": "id",
@@ -2625,7 +2788,9 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Address ID",
+            "example": "1ab7f032-2af5-4d84-a6e3-2f869b55c70e"
           },
           {
             "name": "authorization",
@@ -2637,7 +2802,21 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Delete address response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressSchema"
+                },
+                "example": {
+                  "status": true,
+                  "message": "Address deleted successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"

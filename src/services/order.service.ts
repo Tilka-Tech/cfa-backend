@@ -9,8 +9,8 @@ const orderService = {
                 commodityToDeliver,
                 estimatedWeightOfDelivarables,
                 numberOfDeleverable,
-                pickupId,
-                deliveryId,
+                // pickupId,
+                // deliveryId,
                 // pickUpHouseNumber,
                 // pickupAddress,
                 // pickUpCity,
@@ -25,9 +25,16 @@ const orderService = {
             } = req.body;
 
             const {id: userId} = req.user
-            if(!pickupId && !deliveryId) return {
-                status: false,
-                message: "select a pickup or delivery address"
+            const [address1, address2] = await prismaClient.userAddress.findMany({
+                where: {
+                    userId: userId,
+                    isDefault: true
+                }, select:{id: true, isPickup: true}})
+            if(!address1 && !address2){
+                return {
+                    status: false,
+                    message: "You need to have a default address"
+                }
             }
             const createdOrder = await prismaClient.order.create({
                 data: {
@@ -35,8 +42,8 @@ const orderService = {
                     commodityToDeliver,
                     estimatedWeightOfDelivarables,
                     numberOfDeleverable,
-                    pickupId,
-                    deliveryId,
+                    pickupId : address1.isPickup ? address1.id : address2.id,
+                    deliveryId: !address2.isPickup ? address2.id : address1.id,
                     status: "Pending",
                     recipientName,
                     recipientPhone,
