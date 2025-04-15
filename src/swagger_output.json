@@ -2038,7 +2038,7 @@
         "tags": [
           "Admin"
         ],
-        "description": "Assign truck and driver to order.",
+        "description": "Assign truck and driver to order",
         "parameters": [
           {
             "name": "authorization",
@@ -2063,6 +2063,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
