@@ -31,10 +31,19 @@ const doc = {
                 $password: "password",
             },
             registerSchema: {
-                $email: 'johno@sample.com',
-                $password: "password",
-                $fullname: "John doe",
-                $phone: "08012345678"
+                type: "object",
+                properties: {
+                  email: { type: "string", format: "email", example: "johno@sample.com" },
+                  password: { type: "string", example: "password" },
+                  fullname: { type: "string", example: "John Doe" },
+                  phone: { type: "string", example: "08012345678" },
+                  userType: {
+                    type: "string",
+                    enum: ["Truck Owner", "Driver"],
+                    example: "Truck Owner"
+                  }
+                },
+                required: ["email", "password", "fullname", "phone", "userType"]
             },
             forgotPasswordSchema: {
                 $email: 'johno@sample.com',
@@ -62,6 +71,15 @@ const doc = {
                 $commodityToDeliver: "Cement",
                 $estimatedWeightOfDelivarables: "2000",
                 $numberOfDeleverable: "1000",
+                $pickupId:"12223",
+                $deliveryId:"122121",
+                $recipientName: "John Doe",
+                $recipientPhone: "08012345678"
+            },
+            updateStatusSchema:{
+                $status: "Active"
+            },
+            addressSchema:{
                 $pickUpHouseNumber: "12",
                 $pickupAddress: "Ojuelegba",
                 $pickUpCity: "Lagos",
@@ -71,11 +89,6 @@ const doc = {
                 $deliveryCity: "Lagos",
                 $deliveableState: "Lagos",
                 $country: "Nigeria",
-                $recipientName: "John Doe",
-                $recipientPhone: "08012345678"
-            },
-            updateStatusSchema:{
-                $status: "Active"
             }
         },
     },
@@ -95,6 +108,14 @@ const doc = {
       {
         name: 'Auth',
         description: 'Authentication encpoints for all users',
+      },
+      {
+        name: 'Address',
+        description: 'Address encpoints for all users',
+      },
+      {
+        name: 'Order',
+        description: 'Address encpoints for all users',
       },
     ],
 };

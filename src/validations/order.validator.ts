@@ -7,18 +7,24 @@ const orderValidation ={
         commodityToDeliver: Joi.string().required(),
         estimatedWeightOfDelivarables: Joi.string().required(),
         numberOfDeleverable: Joi.string().required(),
-        pickUpHouseNumber: Joi.string().required(),
-        pickupAddress: Joi.string().required(),
-        pickUpCity: Joi.string().required(),
-        pickUpState: Joi.string().required(),
-        deliveryHouseNumber: Joi.string().required(),
-        deliveryAddress: Joi.string().required(),
-        deliveryCity: Joi.string().required(),
-        deliveableState: Joi.string().required(),
-        country: Joi.string().required(),
         recipientName: Joi.string().required(),
-        recipientPhone: Joi.string().required()
+        recipientPhone: Joi.string()
+        .pattern(/^\+?[1-9]\d{1,14}$/)
+        .required(),
       })
+   },
+  createAdress: {
+    body: Joi.object().keys({
+      pickUpHouseNumber: Joi.string(),
+      pickupAddress: Joi.string(),
+      pickUpCity: Joi.string(),
+      pickUpState: Joi.string(),
+      deliveryHouseNumber: Joi.string(),
+      deliveryAddress: Joi.string(),
+      deliveryCity: Joi.string(),
+      deliveableState: Joi.string(),
+      country: Joi.string().required()
+    })
   }
 }
 

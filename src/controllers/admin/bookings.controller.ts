@@ -28,25 +28,24 @@ const BookingController = {
             enum: ['Acive', 'In_Progress', 'Pending', 'COmpleted']
           }
         }
+        #swagger.responses[200] = {
+          description: "Get all bookings response",
+          content: {
+            "application/json": {
+              schema:{
+                $ref: "#/components/schemas/orderSchema"
+              },
+              example: {
+                status: true,
+                data: [],
+                message: "Successful message"
+              }
+            }
+          }
+        }
       */
       const response = await BookingService.getBookings(req);
 
-    /* #swagger.responses[200] = {
-      description: "Get all bookings response",
-        content: {
-          "application/json": {
-            schema:{
-              $ref: "#/components/schemas/orderSchema"
-            },
-            example: {
-              status: true,
-              data: [],
-              message: "Successful message"
-            }
-          }           
-        }
-      }
-    */
       if(!response.status){
         return res.status(400).json(response);
       }
@@ -65,25 +64,23 @@ const BookingController = {
       /*
         #swagger.tags= ['Admin']
         #swagger.description = Get one user by id
+        #swagger.responses[200] = {
+          description: "Get single booking response",
+          content: {
+            "application/json": {
+              schema:{
+                $ref: "#/components/schemas/orderSchema"
+              },
+              example: {
+                status: true,
+                data: {},
+                message: "Successful message"
+              }
+            }
+          }
+        }
       */
       const response = await BookingService.getOneBooking(req);
-
-    /* #swagger.responses[200] = {
-      description: "Get single booking response",
-        content: {
-          "application/json": {
-            schema:{
-              $ref: "#/components/schemas/orderSchema"
-            },
-            example: {
-              status: true,
-              data: {},
-              message: "Successful message"
-            }
-          }           
-        }
-      }
-    */
       if(!response.status){
         return res.status(400).json(response);
       }
@@ -115,25 +112,23 @@ const BookingController = {
             }
           }
         } 
+        #swagger.responses[200] = {
+          description: "Update booking response",
+          content: {
+            "application/json": {
+              schema:{
+                $ref: "#/components/schemas/loginSchema"
+              },
+              example: {
+                status: true,
+                data: {},
+                message: "Successful message"
+              }
+            }
+          }
+        }
       */
       const response = await BookingService.updateBooking(req);
-
-    /* #swagger.responses[200] = {
-      description: "Update booking response",
-        content: {
-          "application/json": {
-            schema:{
-              $ref: "#/components/schemas/loginSchema"
-            },
-            example: {
-              status: true,
-              data: {},
-              message: "Successful message"
-            }
-          }           
-        }
-      }
-    */
       if(!response.status){
         return res.status(400).json(response);
       }
@@ -151,7 +146,7 @@ const BookingController = {
     try{
       /*
         #swagger.tags= ['Admin']
-        #swagger.description = 'Assign truck and driver to order.
+        #swagger.description = 'Assign truck and driver to order'
         #swagger.requestBody = {
           required: true,
           content: {
@@ -166,25 +161,23 @@ const BookingController = {
             }
           }
         } 
+        #swagger.responses[200] = {
+          description: "Assign driver and truck to booking response",
+          content: {
+            "application/json": {
+              schema:{
+                $ref: "#/components/schemas/loginSchema"
+              },
+              example: {
+                status: true,
+                data: {},
+                message: "Successful message"
+              }
+            }
+          }
+        }
       */
       const response = await BookingService.assignTruckAndDriver(req);
-
-    /* #swagger.responses[200] = {
-      description: "Assign driver and truck to booking response",
-        content: {
-          "application/json": {
-            schema:{
-              $ref: "#/components/schemas/loginSchema"
-            },
-            example: {
-              status: true,
-              data: {},
-              message: "Successful message"
-            }
-          }           
-        }
-      }
-    */
       if(!response.status){
         return res.status(400).json(response);
       }

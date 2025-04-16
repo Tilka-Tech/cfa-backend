@@ -31,6 +31,7 @@ async function main() {
         fullname: "Jonh Doe",
         phone: "08012345678",
         userType: "Admin",
+        status: "Active"
       }
     })
   }
